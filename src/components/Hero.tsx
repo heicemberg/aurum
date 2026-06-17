@@ -1,0 +1,225 @@
+import { useEffect, useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { ArrowRight, ChevronDown, Shield, Zap, Play } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
+import { useAuth } from '@/context/AuthContext'
+
+function EquityCurve() {
+  const points = [
+    [0, 86], [60, 81], [120, 83], [180, 70], [240, 74], [300, 58],
+    [360, 62], [420, 46], [480, 50], [540, 34], [600, 38], [660, 22],
+    [720, 26], [780, 12],
+  ]
+  const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ')
+  const fillPath = `${path} L 780 160 L 0 160 Z`
+  return (
+    <svg viewBox="0 0 780 160" preserveAspectRatio="none" className="absolute inset-0 w-full h-full">
+      <defs>
+        <linearGradient id="curveFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#C9A227" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="#C9A227" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <motion.path d={fillPath} fill="url(#curveFill)" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.6, delay: 0.6 }} />
+      <motion.path d={path} fill="none" stroke="#C9A227" strokeWidth="1.25" strokeLinecap="round"
+        initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 0.8 }}
+        transition={{ duration: 2.2, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }} />
+    </svg>
+  )
+}
+
+function useCountUp(end: number, duration: number, active: boolean) {
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    if (!active) return
+    let start: number | null = null
+    let raf: number
+    const step = (ts: number) => {
+      if (!start) start = ts
+      const p = Math.min((ts - start) / (duration * 1000), 1)
+      setVal(end * (1 - Math.pow(1 - p, 3)))
+      if (p < 1) raf = requestAnimationFrame(step)
+      else setVal(end)
+    }
+    raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
+  }, [end, duration, active])
+  return val
+}
+
+const METRICS = [
+  { raw: 61.4, display: (v: number) => `${v.toFixed(1)}%`, label: 'Win Rate' },
+  { raw: 8.7, display: (v: number) => `-${v.toFixed(1)}%`, label: 'Drawdown Máx.' },
+  { raw: 67.2, display: (v: number) => `+${v.toFixed(0)}%`, label: 'Retorno Anual' },
+  { raw: 4847, display: (v: number) => v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.'), label: 'Operaciones' },
+]
+
+function MetricItem({ raw, display, label, delay }: (typeof METRICS)[0] & { delay: number }) {
+  const [active, setActive] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setActive(true), 1300 + delay); return () => clearTimeout(t) }, [delay])
+  const val = useCountUp(raw, 1.8, active)
+  return (
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.2 + delay / 1000 }}>
+      <div className="font-serif text-3xl lg:text-4xl text-[#F5F0E8]">{display(val)}</div>
+      <div className="font-mono text-[10px] text-[#5A5650] tracking-[0.12em] uppercase mt-1.5">{label}</div>
+    </motion.div>
+  )
+}
+
+function InvestmentFlowCard() {
+  const steps = [
+    { icon: '01', label: 'Elige un plan', sub: 'Desde $300 USDT' },
+    { icon: '02', label: 'Transfiere en crypto', sub: 'Binance o wallet fría' },
+    { icon: '03', label: 'Operamos por ti', sub: 'Trading 24/7 activo' },
+    { icon: '04', label: 'Recibes tus ganancias', sub: 'Capital + retorno' },
+  ]
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="w-full max-w-xl mx-auto rounded-2xl border border-[rgba(245,240,232,0.08)] bg-[#0E1014]/90 backdrop-blur-sm overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.4)]"
+    >
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-[rgba(245,240,232,0.06)] bg-[rgba(245,240,232,0.02)]">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#C9A227] animate-pulse" />
+          <span className="font-mono text-[11px] text-[#5A5650]">AURUM · algoritmo activo</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <Zap size={10} className="text-[#C9A227]" />
+          <span className="font-mono text-[10px] text-[#C9A227]">EN VIVO</span>
+        </div>
+      </div>
+      <div className="px-5 py-5">
+        <div className="grid grid-cols-2 gap-3">
+          {steps.map((step, i) => (
+            <motion.div
+              key={step.icon}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 + i * 0.15 }}
+              className="rounded-xl bg-[rgba(245,240,232,0.03)] border border-[rgba(245,240,232,0.06)] p-3.5 hover:border-[rgba(201,162,39,0.2)] transition-colors"
+            >
+              <div className="font-mono text-[10px] text-[#C9A227] mb-1.5">{step.icon}</div>
+              <div className="text-[#F5F0E8] text-[12.5px] font-medium leading-tight mb-0.5">{step.label}</div>
+              <div className="text-[#5A5650] text-[11px]">{step.sub}</div>
+            </motion.div>
+          ))}
+        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+          className="mt-4 pt-4 border-t border-[rgba(245,240,232,0.06)] flex items-center justify-between"
+        >
+          <span className="text-[#5A5650] text-[11px] font-mono">Retorno estimado</span>
+          <div className="flex items-center gap-1.5">
+            <span className="font-serif text-[#6FBF8B] text-lg">+5% → +22%</span>
+            <span className="font-mono text-[10px] text-[#5A5650]">según plan</span>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  )
+}
+
+const ease = [0.25, 0.46, 0.45, 0.94] as const
+
+export default function Hero() {
+  const navigate = useNavigate()
+  const { loginDemo } = useAuth()
+
+  return (
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[#0A0B0D]">
+      <div className="absolute inset-x-0 top-0 h-[60vh] opacity-70">
+        <EquityCurve />
+      </div>
+      <div className="absolute inset-0 pointer-events-none bg-grid bg-grid-fade" />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 80% 55% at 50% 35%, rgba(201,162,39,0.05) 0%, transparent 100%)' }} />
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[rgba(245,240,232,0.1)] to-transparent" />
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pt-40 pb-24 text-center">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }} className="flex justify-center">
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(201,162,39,0.2)] bg-[rgba(201,162,39,0.04)] px-4 py-1.5 mb-9">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227] animate-pulse" />
+            <span className="font-mono text-[11px] text-[#C9A227] tracking-[0.18em] uppercase">trading activo · resultados reales</span>
+          </div>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.08, ease }}
+          className="font-serif font-normal text-5xl sm:text-6xl lg:text-[5.2rem] text-[#F5F0E8] leading-[1.08] tracking-tight mb-7"
+        >
+          Tu capital en manos
+          <br />
+          <span className="text-[#C9A227] italic">expertas.</span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.18, ease }}
+          className="text-lg lg:text-xl text-[#9B9590] max-w-[560px] mx-auto mb-10 font-light leading-[1.7]"
+        >
+          Elige un plan, transfiere tu inversión en crypto y nuestro equipo opera por ti.
+          Sin API keys, sin instalaciones, sin complicaciones.
+          Al vencer el plan, recibes tu capital más las ganancias directamente en tu wallet.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.28, ease }}
+          className="flex flex-wrap justify-center gap-4 mb-8"
+        >
+          <Button size="lg" className="gap-2" onClick={() => navigate('/register')}>
+            Comenzar a invertir <ArrowRight size={15} />
+          </Button>
+          <Button size="lg" variant="ghost" onClick={() => document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' })}>
+            Ver cómo funciona
+          </Button>
+          <button
+            onClick={() => { loginDemo(); navigate('/dashboard') }}
+            className="inline-flex items-center gap-2 font-mono text-[11px] text-[#5A5650] hover:text-[#C9A227] transition-colors px-3 py-2 rounded-full border border-[rgba(245,240,232,0.07)] hover:border-[rgba(201,162,39,0.2)]"
+          >
+            <Play size={10} className="fill-current" />
+            Ver demo del panel
+          </button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.38 }}
+          className="flex items-center justify-center gap-2.5 mb-16"
+        >
+          <Shield size={14} className="text-[#C9A227] flex-shrink-0" />
+          <span className="font-mono text-[12px] text-[#5A5650]">
+            sin api keys · sin instalaciones · solo resultados
+          </span>
+        </motion.div>
+
+        <InvestmentFlowCard />
+
+        <div className="mt-16 pt-9 border-t border-[rgba(245,240,232,0.07)] grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+          {METRICS.map((m, i) => <MetricItem key={m.label} {...m} delay={i * 120} />)}
+        </div>
+
+        <motion.p
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.8 }}
+          className="font-mono text-[10.5px] text-[#3D3A36] mt-6"
+        >
+          * datos de operativa histórica · resultados pasados no garantizan rendimientos futuros
+        </motion.p>
+      </div>
+
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 7, 0] }}
+        transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+      >
+        <ChevronDown size={18} className="text-[rgba(245,240,232,0.2)]" />
+      </motion.div>
+    </section>
+  )
+}

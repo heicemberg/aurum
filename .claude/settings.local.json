@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(npx claude-code-templates@latest --skill creative-design/frontend-design)",
+      "Bash(npx claude-code-templates@latest --skill creative-design/frontend-design,development/senior-frontend,development/senior-backend,development/senior-architect,creative-design/ui-design-system,development/senior-fullstack,development/skill-creator,web-development/react-best-practices,creative-design/canvas-design,development/brainstorming,creative-design/mobile-design,development/mcp-builder,development/clean-code,development/react-best-practices,creative-design/theme-factory,creative-design/3d-web-experience,business-marketing/copywriting,creative-design/tailwind-patterns,business-marketing/marketing-psychology,business-marketing/marketing-ideas,productivity/humanizer,ai-research/agent-memory-systems,scientific/generate-image,business-marketing/micro-saas-launcher,development/typescript-expert,ai-research/context7-auto-research,ai-research/autonomous-agents,enterprise-communication/telegram-bot-builder,ai-research/conversation-memory,development/react-ui-patterns,development/backend-architect,business-marketing/copy-editing,ai-research/agent-manager-skill)",
+      "Bash(npm run *)",
+      "Skill(run)",
+      "Bash(npx --version)",
+      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Bash(npm ls *)",
+      "Bash(npx -y playwright --version)",
+      "Bash(npx -y playwright install chromium)",
+      "Bash(node screenshot.mjs)",
+      "PowerShell(Get-NetTCPConnection *)"
+    ]
+  }
+}
