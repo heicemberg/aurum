@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronDown, Shield, Zap, Play } from 'lucide-react'
+import { ArrowRight, ChevronDown, Shield, Play } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/context/AuthContext'
@@ -49,10 +49,10 @@ function useCountUp(end: number, duration: number, active: boolean) {
 }
 
 const METRICS = [
-  { raw: 61.4, display: (v: number) => `${v.toFixed(1)}%`, label: 'Win Rate' },
-  { raw: 8.7, display: (v: number) => `-${v.toFixed(1)}%`, label: 'Drawdown Máx.' },
-  { raw: 67.2, display: (v: number) => `+${v.toFixed(0)}%`, label: 'Retorno Anual' },
-  { raw: 4847, display: (v: number) => v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.'), label: 'Operaciones' },
+  { raw: 61.4, display: (v: number) => `${v.toFixed(1)}%`, label: 'Operaciones exitosas' },
+  { raw: 8.7, display: (v: number) => `-${v.toFixed(1)}%`, label: 'Mayor caída registrada' },
+  { raw: 67.2, display: (v: number) => `+${v.toFixed(0)}%`, label: 'Ganancia anual histórica' },
+  { raw: 4847, display: (v: number) => v.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.'), label: 'Operaciones ejecutadas' },
 ]
 
 function MetricItem({ raw, display, label, delay }: (typeof METRICS)[0] & { delay: number }) {
@@ -62,17 +62,17 @@ function MetricItem({ raw, display, label, delay }: (typeof METRICS)[0] & { dela
   return (
     <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 1.2 + delay / 1000 }}>
       <div className="font-serif text-3xl lg:text-4xl text-[#F5F0E8]">{display(val)}</div>
-      <div className="font-mono text-[10px] text-[#5A5650] tracking-[0.12em] uppercase mt-1.5">{label}</div>
+      <div className="font-mono text-[10px] text-[#7A7570] tracking-[0.12em] uppercase mt-1.5">{label}</div>
     </motion.div>
   )
 }
 
 function InvestmentFlowCard() {
   const steps = [
-    { icon: '01', label: 'Elige un plan', sub: 'Desde $300 USDT' },
-    { icon: '02', label: 'Transfiere en crypto', sub: 'Binance o wallet fría' },
-    { icon: '03', label: 'Operamos por ti', sub: 'Trading 24/7 activo' },
-    { icon: '04', label: 'Recibes tus ganancias', sub: 'Capital + retorno' },
+    { icon: '01', label: 'Elige un plan', sub: 'Desde $300 dólares' },
+    { icon: '02', label: 'Envías tu dinero', sub: 'En formato digital' },
+    { icon: '03', label: 'Nosotros trabajamos', sub: 'Comprando y vendiendo' },
+    { icon: '04', label: 'Recibes tus ganancias', sub: 'Capital + lo que ganaste' },
   ]
   return (
     <motion.div
@@ -84,11 +84,11 @@ function InvestmentFlowCard() {
       <div className="flex items-center justify-between px-5 py-3.5 border-b border-[rgba(245,240,232,0.06)] bg-[rgba(245,240,232,0.02)]">
         <div className="flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-[#C9A227] animate-pulse" />
-          <span className="font-mono text-[11px] text-[#5A5650]">AURUM · algoritmo activo</span>
+          <span className="font-mono text-[11px] text-[#7A7570]">AURUM · sistema activo</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <Zap size={10} className="text-[#C9A227]" />
-          <span className="font-mono text-[10px] text-[#C9A227]">EN VIVO</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#6FBF8B] animate-pulse" />
+          <span className="font-mono text-[10px] text-[#6FBF8B]">EN LÍNEA</span>
         </div>
       </div>
       <div className="px-5 py-5">
@@ -103,7 +103,7 @@ function InvestmentFlowCard() {
             >
               <div className="font-mono text-[10px] text-[#C9A227] mb-1.5">{step.icon}</div>
               <div className="text-[#F5F0E8] text-[12.5px] font-medium leading-tight mb-0.5">{step.label}</div>
-              <div className="text-[#5A5650] text-[11px]">{step.sub}</div>
+              <div className="text-[#8A8580] text-[11px]">{step.sub}</div>
             </motion.div>
           ))}
         </div>
@@ -113,10 +113,10 @@ function InvestmentFlowCard() {
           transition={{ delay: 1.4 }}
           className="mt-4 pt-4 border-t border-[rgba(245,240,232,0.06)] flex items-center justify-between"
         >
-          <span className="text-[#5A5650] text-[11px] font-mono">Retorno estimado</span>
+          <span className="text-[#8A8580] text-[11px] font-mono">Ganancia estimada</span>
           <div className="flex items-center gap-1.5">
             <span className="font-serif text-[#6FBF8B] text-lg">+5% → +22%</span>
-            <span className="font-mono text-[10px] text-[#5A5650]">según plan</span>
+            <span className="font-mono text-[10px] text-[#7A7570]">según plan</span>
           </div>
         </motion.div>
       </div>
@@ -143,7 +143,7 @@ export default function Hero() {
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease }} className="flex justify-center">
           <div className="inline-flex items-center gap-2.5 rounded-full border border-[rgba(201,162,39,0.2)] bg-[rgba(201,162,39,0.04)] px-4 py-1.5 mb-9">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227] animate-pulse" />
-            <span className="font-mono text-[11px] text-[#C9A227] tracking-[0.18em] uppercase">trading activo · resultados reales</span>
+            <span className="font-mono text-[11px] text-[#C9A227] tracking-[0.18em] uppercase">resultados verificados · clientes reales</span>
           </div>
         </motion.div>
 
@@ -152,9 +152,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.08, ease }}
           className="font-serif font-normal text-5xl sm:text-6xl lg:text-[5.2rem] text-[#F5F0E8] leading-[1.08] tracking-tight mb-7"
         >
-          Tu capital en manos
+          Tu dinero trabajando
           <br />
-          <span className="text-[#C9A227] italic">expertas.</span>
+          <span className="text-[#C9A227] italic">por ti.</span>
         </motion.h1>
 
         <motion.p
@@ -162,9 +162,10 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.18, ease }}
           className="text-lg lg:text-xl text-[#9B9590] max-w-[560px] mx-auto mb-10 font-light leading-[1.7]"
         >
-          Elige un plan, transfiere tu inversión en crypto y nuestro equipo opera por ti.
-          Sin API keys, sin instalaciones, sin complicaciones.
-          Al vencer el plan, recibes tu capital más las ganancias directamente en tu wallet.
+          Elige un plan, envías tu dinero y nuestro equipo lo hace crecer
+          comprando y vendiendo criptomonedas por ti.
+          Al terminar el plazo, recibes tu dinero más las ganancias directo a tu cuenta.
+          Sin complicaciones, sin necesitar saber de criptomonedas.
         </motion.p>
 
         <motion.div
@@ -173,17 +174,17 @@ export default function Hero() {
           className="flex flex-wrap justify-center gap-4 mb-8"
         >
           <Button size="lg" className="gap-2" onClick={() => navigate('/register')}>
-            Comenzar a invertir <ArrowRight size={15} />
+            Quiero empezar a ganar <ArrowRight size={15} />
           </Button>
           <Button size="lg" variant="ghost" onClick={() => document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' })}>
-            Ver cómo funciona
+            ¿Cómo funciona?
           </Button>
           <button
             onClick={() => { loginDemo(); navigate('/dashboard') }}
-            className="inline-flex items-center gap-2 font-mono text-[11px] text-[#5A5650] hover:text-[#C9A227] transition-colors px-3 py-2 rounded-full border border-[rgba(245,240,232,0.07)] hover:border-[rgba(201,162,39,0.2)]"
+            className="inline-flex items-center gap-2 font-mono text-[11px] text-[#7A7570] hover:text-[#C9A227] transition-colors px-3 py-2 rounded-full border border-[rgba(245,240,232,0.07)] hover:border-[rgba(201,162,39,0.2)]"
           >
             <Play size={10} className="fill-current" />
-            Ver demo del panel
+            Ver panel de ejemplo
           </button>
         </motion.div>
 
@@ -193,8 +194,8 @@ export default function Hero() {
           className="flex items-center justify-center gap-2.5 mb-16"
         >
           <Shield size={14} className="text-[#C9A227] flex-shrink-0" />
-          <span className="font-mono text-[12px] text-[#5A5650]">
-            sin api keys · sin instalaciones · solo resultados
+          <span className="font-mono text-[12px] text-[#8A8580]">
+            sin conocimientos técnicos · sin complicaciones · solo resultados
           </span>
         </motion.div>
 
@@ -207,9 +208,9 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 1.8 }}
-          className="font-mono text-[10.5px] text-[#3D3A36] mt-6"
+          className="font-mono text-[10.5px] text-[#6A6560] mt-6"
         >
-          * datos de operativa histórica · resultados pasados no garantizan rendimientos futuros
+          * datos de historial operativo 2022–2024 · los resultados pasados no garantizan ganancias futuras
         </motion.p>
       </div>
 

@@ -8,29 +8,29 @@ const STEPS = [
     n: '01',
     Icon: UserPlus,
     title: 'Crea tu cuenta',
-    body: 'Regístrate con tu email en menos de 2 minutos. Elige tu plan de inversión y la cantidad que deseas invertir. Tu panel personal estará listo al instante.',
-    pill: 'Sin papeleos ni demoras',
+    body: 'Regístrate con tu correo en menos de 2 minutos. Elige tu plan y el dinero que quieres invertir. Tu panel personal estará listo al instante.',
+    pill: 'Sin papeleos ni esperas',
   },
   {
     n: '02',
     Icon: LayoutGrid,
     title: 'Elige tu plan',
-    body: 'Starter desde $300 USDT · 30 días. Growth desde $1,000 USDT · 60 días. Elite desde $5,000 USDT · 90 días. O personaliza tu propia inversión.',
+    body: 'Básico desde $300 · 30 días. Crecimiento desde $1,000 · 60 días. Elite desde $5,000 · 90 días. O dinos cuánto quieres invertir tú.',
     pill: '+5% a +22% estimado',
   },
   {
     n: '03',
     Icon: SendHorizontal,
-    title: 'Transfiere en crypto',
-    body: 'Envía USDT, BTC o ETH a nuestras wallets verificadas vía Binance o wallet fría. Nuestro equipo confirma el pago y activa tu plan en menos de 24 horas.',
-    pill: 'Binance · Wallet fría · TRC20',
+    title: 'Envías tu dinero',
+    body: 'Mandas dólares digitales (USDT) a nuestra dirección verificada. Nuestro equipo confirma el pago y activa tu plan en menos de 24 horas. Te decimos exactamente cómo hacerlo, paso a paso.',
+    pill: 'Te guiamos en cada paso',
   },
   {
     n: '04',
     Icon: BadgeDollarSign,
-    title: 'Recibe tus ganancias',
-    body: 'Al vencer el plazo de tu plan, recibes tu capital inicial más las ganancias generadas directamente en tu wallet. Sin excusas, sin retrasos.',
-    pill: 'Capital + retorno garantizado',
+    title: 'Recibes tus ganancias',
+    body: 'Cuando termina tu plan, recibes tu dinero de vuelta más lo que ganaste, directo a tu billetera digital. Sin excusas, sin demoras.',
+    pill: 'Tu dinero + lo que ganaste',
   },
 ]
 
@@ -51,12 +51,12 @@ export default function HowItWorks() {
             <SectionTag>Cómo funciona</SectionTag>
           </div>
           <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] max-w-xl mx-auto leading-tight tracking-tight">
-            Simple por diseño.{' '}
-            <span className="text-[#C9A227] italic">Poderoso por dentro.</span>
+            Tan simple que{' '}
+            <span className="text-[#C9A227] italic">cualquiera puede hacerlo.</span>
           </h2>
-          <p className="text-[#5A5650] text-sm mt-4 max-w-md mx-auto leading-relaxed">
-            No necesitas conocimientos técnicos, ni API keys, ni instalar nada.
-            Solo elige, transfiere y nosotros hacemos el resto.
+          <p className="text-[#9B9590] text-sm mt-4 max-w-md mx-auto leading-relaxed">
+            No necesitas saber nada de criptomonedas. No necesitas instalar ninguna aplicación.
+            Solo elige, envías tu dinero y nosotros hacemos todo el trabajo.
           </p>
         </motion.div>
 
@@ -76,7 +76,7 @@ export default function HowItWorks() {
                 <Icon size={17} className="text-[#C9A227]" />
               </div>
               <h3 className="text-[#F5F0E8] text-base font-semibold mb-3 tracking-tight">{title}</h3>
-              <p className="text-[#5A5650] text-[13px] leading-[1.75] mb-6">{body}</p>
+              <p className="text-[#8A8580] text-[13px] leading-[1.75] mb-6">{body}</p>
               <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,162,39,0.14)] px-3 py-1.5">
                 <span className="w-1 h-1 rounded-full bg-[#C9A227] flex-shrink-0" />
                 <span className="font-mono text-[10px] text-[#C9A227] tracking-wide">{pill}</span>

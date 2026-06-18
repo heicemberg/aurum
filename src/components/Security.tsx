@@ -1,28 +1,46 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ShieldCheck, Users, RotateCcw, Lock } from 'lucide-react'
+import { ShieldCheck, Users, RotateCcw, Lock, AlertTriangle, Wallet, TrendingDown } from 'lucide-react'
 import SectionTag from '@/components/ui/section-tag'
 
 const PILLARS = [
   {
-    Icon: ShieldCheck,
-    title: 'Wallets verificadas',
-    body: 'Nuestras direcciones de depósito son públicas, consistentes y verificables. Cada transferencia es confirmada manualmente por nuestro equipo antes de activar cualquier plan.',
+    Icon: Wallet,
+    title: 'Tu dinero en dirección verificada',
+    body: 'Nuestras direcciones de depósito son públicas y siempre las mismas. Cada pago es confirmado a mano por nuestro equipo antes de activar cualquier plan. Nunca te pediremos datos de tu banco ni contraseñas.',
   },
   {
     Icon: Users,
-    title: 'Gestor personal asignado',
-    body: 'Cada inversor cuenta con un gestor personal que reporta el estado de la operativa semanalmente y está disponible para resolver cualquier consulta en menos de 4 horas.',
+    title: 'Una gestora asignada solo para ti',
+    body: 'Cada inversor tiene una gestora personal que le escribe cada semana con el estado de su dinero. Si tienes una duda, ella responde en menos de 4 horas, de lunes a sábado.',
   },
   {
     Icon: RotateCcw,
-    title: 'Devolución al vencer',
-    body: 'Al terminar el plazo de tu plan, tu capital inicial más las ganancias generadas se transfieren directamente a la wallet que registraste. Sin demoras, sin excusas.',
+    title: 'Tu dinero vuelve cuando termina el plan',
+    body: 'Al terminar el plazo de tu plan, tu dinero inicial más lo que ganaste se envía directo a tu billetera digital. Sin demoras, sin excusas, sin condiciones ocultas.',
   },
   {
     Icon: Lock,
-    title: 'Sin comisiones ocultas',
-    body: 'El retorno que ves en tu plan es lo que recibes. No hay comisiones sobre ganancias, ni renovaciones automáticas, ni cargos extras de ningún tipo. Precio claro desde el inicio.',
+    title: 'Sin costos ocultos de ningún tipo',
+    body: 'El porcentaje que ves en tu plan es exactamente lo que recibes. No hay comisiones sobre ganancias, ni renovaciones automáticas, ni cobros extras. Lo que se muestra es lo que se paga.',
+  },
+]
+
+const PROTECTION = [
+  {
+    Icon: TrendingDown,
+    title: 'Límites automáticos de pérdida',
+    body: 'Cada operación tiene un límite de cuánto puede perder. Si el precio baja demasiado, el sistema cierra la compra automáticamente para que la pérdida nunca sea mayor de lo previsto.',
+  },
+  {
+    Icon: ShieldCheck,
+    title: 'Nunca ponemos todo en una sola operación',
+    body: 'Tu dinero se divide en múltiples operaciones pequeñas. Así, si una no sale bien, las otras compensan. No apostamos todo a una sola carta.',
+  },
+  {
+    Icon: AlertTriangle,
+    title: 'Honestidad sobre el riesgo',
+    body: 'El trading conlleva riesgo real de perder dinero. Algunos meses son negativos. Por eso recomendamos invertir solo dinero que puedas dejar quieto durante el plazo sin que lo necesites.',
   },
 ]
 
@@ -40,19 +58,20 @@ export default function Security() {
           className="mb-16 text-center"
         >
           <div className="flex justify-center">
-            <SectionTag>Por qué confiar en AURUM</SectionTag>
+            <SectionTag>Seguridad y transparencia</SectionTag>
           </div>
           <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] max-w-xl mx-auto leading-tight tracking-tight">
-            La confianza se construye{' '}
-            <span className="text-[#C9A227] italic">con hechos.</span>
+            Tu dinero protegido.{' '}
+            <span className="text-[#C9A227] italic">Sin letra pequeña.</span>
           </h2>
-          <p className="text-[#5A5650] mt-5 max-w-lg mx-auto text-sm leading-relaxed">
-            Sabemos que entregar tu capital requiere confianza absoluta. Por eso cada aspecto
-            de nuestra operativa está diseñado para darte transparencia y seguridad reales.
+          <p className="text-[#9B9590] mt-5 max-w-lg mx-auto text-sm leading-relaxed">
+            Sabemos que entregar tu dinero requiere mucha confianza. Por eso cada parte
+            de cómo trabajamos está pensada para que siempre sepas qué pasa con tu inversión.
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        {/* Pillars */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
           {PILLARS.map(({ Icon, title, body }, i) => (
             <motion.div
               key={title}
@@ -65,22 +84,72 @@ export default function Security() {
                 <Icon size={16} className="text-[#C9A227]" />
               </div>
               <h3 className="text-[#F5F0E8] text-base font-semibold mb-2.5 tracking-tight">{title}</h3>
-              <p className="text-[#5A5650] text-[13px] leading-[1.7]">{body}</p>
+              <p className="text-[#8A8580] text-[13px] leading-[1.7]">{body}</p>
             </motion.div>
           ))}
         </div>
 
+        {/* How we protect funds */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="rounded-2xl border border-[rgba(201,162,39,0.1)] bg-[rgba(201,162,39,0.025)] p-6 max-w-2xl mx-auto text-center"
+          initial={{ opacity: 0, y: 24 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mb-10"
         >
-          <p className="text-[#9B9590] text-sm leading-relaxed">
-            AURUM no es un banco ni una entidad financiera regulada. Gestionamos capital de clientes
-            para operativa de trading. Te recomendamos invertir únicamente capital que puedas permitirte
-            destinar a esta clase de inversión de riesgo.
-          </p>
+          <div className="text-center mb-8">
+            <h3 className="font-serif text-2xl lg:text-3xl text-[#F5F0E8]">
+              ¿Cómo protegemos tu dinero mientras opera?
+            </h3>
+            <p className="text-[#9B9590] text-sm mt-2 max-w-md mx-auto">
+              Mientras tu dinero está con nosotros, usamos tres mecanismos de protección.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-5">
+            {PROTECTION.map(({ Icon, title, body }, i) => (
+              <motion.div
+                key={title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
+                className="rounded-2xl border border-[rgba(245,240,232,0.07)] bg-[#0A0B0D] p-6 hover:border-[rgba(201,162,39,0.2)] transition-colors duration-300"
+              >
+                <div className="w-8 h-8 rounded-lg border border-[rgba(201,162,39,0.18)] flex items-center justify-center mb-4">
+                  <Icon size={14} className="text-[#C9A227]" />
+                </div>
+                <h4 className="text-[#F5F0E8] text-sm font-semibold mb-2">{title}</h4>
+                <p className="text-[#8A8580] text-[13px] leading-[1.7]">{body}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Wallet security explainer */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="rounded-2xl border border-[rgba(201,162,39,0.12)] bg-[rgba(201,162,39,0.025)] p-6 lg:p-8 max-w-3xl mx-auto"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-[rgba(201,162,39,0.1)] flex items-center justify-center flex-shrink-0">
+              <Wallet size={16} className="text-[#C9A227]" />
+            </div>
+            <div>
+              <h4 className="text-[#F5F0E8] font-semibold mb-2">¿Qué es una billetera digital y cómo funciona?</h4>
+              <p className="text-[#9B9590] text-sm leading-relaxed mb-3">
+                Una billetera digital es como tu cuenta bancaria, pero para dinero digital. Tiene una dirección
+                (como un número de cuenta) a la que se envía y recibe dinero. Cuando inviertes con Aurum,
+                envías tu dinero a nuestra dirección verificada, y cuando termina tu plan, te lo devolvemos
+                a la dirección que tú nos indiques.
+              </p>
+              <p className="text-[#8A8580] text-[13px] leading-relaxed">
+                <strong className="text-[#9B9590]">Importante:</strong> Aurum nunca tiene acceso a tu billetera personal.
+                Solo tú controlas tu dinero una vez que está de regreso. Nosotros solo recibimos lo que nos envías
+                durante el plan y te lo devolvemos cuando termina.
+              </p>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>

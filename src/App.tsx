@@ -6,9 +6,11 @@ import Navbar from '@/components/Navbar'
 import Hero from '@/components/Hero'
 import HowItWorks from '@/components/HowItWorks'
 import Security from '@/components/Security'
+import Team from '@/components/Team'
 import CapitalSimulator from '@/components/CapitalSimulator'
 import Plans from '@/components/Plans'
 import Results from '@/components/Results'
+import Testimonials from '@/components/Testimonials'
 import FAQ from '@/components/FAQ'
 import Footer from '@/components/Footer'
 import Register from '@/pages/Register'
@@ -32,9 +34,11 @@ function Landing() {
         <Hero />
         <HowItWorks />
         <Security />
+        <Team />
         <CapitalSimulator />
         <Plans />
         <Results />
+        <Testimonials />
         <FAQ />
       </main>
       <Footer />

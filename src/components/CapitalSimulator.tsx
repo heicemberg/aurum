@@ -50,21 +50,21 @@ export default function CapitalSimulator() {
   const CARDS = [
     {
       Icon: TrendingUp,
-      label: 'Ganancia mensual est.',
-      value: <><AnimatedValue target={monthlyLow} format={fmt} /> – <AnimatedValue target={monthlyHigh} format={fmt} /> USDT</>,
-      sub: `${(MONTHLY_LOW * 100).toFixed(1)}% – ${(MONTHLY_HIGH * 100).toFixed(1)}% mensual`,
+      label: 'Lo que ganarías al mes',
+      value: <><AnimatedValue target={monthlyLow} format={fmt} /> – <AnimatedValue target={monthlyHigh} format={fmt} /></>,
+      sub: `Entre ${(MONTHLY_LOW * 100).toFixed(1)}% y ${(MONTHLY_HIGH * 100).toFixed(1)}% mensual estimado`,
     },
     {
       Icon: Calendar,
-      label: 'Ganancia anual est.',
-      value: <><AnimatedValue target={yearLow} format={fmt} /> – <AnimatedValue target={yearHigh} format={fmt} /> USDT</>,
-      sub: `+${((Math.pow(1 + MONTHLY_LOW, 12) - 1) * 100).toFixed(1)}% – +${((Math.pow(1 + MONTHLY_HIGH, 12) - 1) * 100).toFixed(1)}%`,
+      label: 'Lo que ganarías en un año',
+      value: <><AnimatedValue target={yearLow} format={fmt} /> – <AnimatedValue target={yearHigh} format={fmt} /></>,
+      sub: `Entre +${((Math.pow(1 + MONTHLY_LOW, 12) - 1) * 100).toFixed(1)}% y +${((Math.pow(1 + MONTHLY_HIGH, 12) - 1) * 100).toFixed(1)}% anual estimado`,
     },
     {
       Icon: Wallet,
-      label: 'Capital proyectado (12 m)',
-      value: <><AnimatedValue target={capital + yearLow} format={fmt} /> – <AnimatedValue target={capital + yearHigh} format={fmt} /> USDT</>,
-      sub: 'Capital inicial + ganancia estimada',
+      label: 'Tu dinero total al año',
+      value: <><AnimatedValue target={capital + yearLow} format={fmt} /> – <AnimatedValue target={capital + yearHigh} format={fmt} /></>,
+      sub: 'Tu inversión inicial + lo que ganaste',
     },
   ]
 
@@ -78,14 +78,14 @@ export default function CapitalSimulator() {
           className="mb-12 text-center"
         >
           <div className="flex justify-center">
-            <SectionTag>Simulador de capital</SectionTag>
+            <SectionTag>Calculadora de ganancias</SectionTag>
           </div>
           <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] leading-tight tracking-tight">
-            ¿Cómo puede crecer tu inversión?
+            ¿Cuánto podría crecer tu dinero?
           </h2>
-          <p className="text-[#5A5650] mt-4 max-w-md mx-auto text-sm leading-relaxed">
-            Mueve el slider y observa una proyección basada en el rendimiento histórico
-            de nuestra operativa. Es orientativo — los resultados reales pueden variar.
+          <p className="text-[#9B9590] mt-4 max-w-md mx-auto text-sm leading-relaxed">
+            Mueve la barra y ve cuánto podrías ganar según nuestro historial real.
+            Son estimaciones: los resultados pueden variar según el mercado.
           </p>
         </motion.div>
 
@@ -97,10 +97,10 @@ export default function CapitalSimulator() {
         >
           <div className="mb-10">
             <div className="flex items-baseline justify-between mb-5">
-              <label className="font-mono text-xs text-[#5A5650] tracking-[0.15em] uppercase">Capital a invertir</label>
+              <label className="font-mono text-xs text-[#8A8580] tracking-[0.15em] uppercase">Dinero a invertir</label>
               <span className="font-serif text-4xl text-[#F5F0E8]">
                 <AnimatedValue target={capital} format={fmt} />
-                <span className="text-[#5A5650] text-xl ml-2">USDT</span>
+                <span className="text-[#8A8580] text-xl ml-2">USD</span>
               </span>
             </div>
             <input
@@ -113,31 +113,31 @@ export default function CapitalSimulator() {
               className="w-full"
               style={{ background: `linear-gradient(to right, #C9A227 ${pct}%, rgba(201,162,39,0.15) ${pct}%)` }}
             />
-            <div className="flex justify-between mt-2.5 font-mono text-xs text-[#3D3A36]">
-              <span>$300 USDT</span>
-              <span>$10,000 USDT</span>
+            <div className="flex justify-between mt-2.5 font-mono text-xs text-[#6A6560]">
+              <span>$300 mínimo</span>
+              <span>$10,000</span>
             </div>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-5 mb-8">
             {CARDS.map(({ Icon, label, value, sub }) => (
               <div key={label} className="rounded-xl border border-[rgba(245,240,232,0.07)] p-5 lg:p-6">
-                <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#5A5650] tracking-[0.12em] uppercase mb-3">
+                <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#8A8580] tracking-[0.12em] uppercase mb-3">
                   <Icon size={11} className="text-[rgba(201,162,39,0.5)]" />
                   {label}
                 </div>
                 <div className="font-serif text-xl lg:text-2xl text-[#C9A227] leading-tight mb-2">{value}</div>
-                <div className="text-[11px] text-[#5A5650] leading-relaxed">{sub}</div>
+                <div className="text-[11px] text-[#7A7570] leading-relaxed">{sub}</div>
               </div>
             ))}
           </div>
 
           <div className="flex items-start gap-3 border-t border-[rgba(245,240,232,0.08)] pt-5">
-            <AlertTriangle size={14} className="text-[#5A5650] flex-shrink-0 mt-px" />
-            <p className="text-[12px] text-[#5A5650] leading-[1.7]">
-              <strong className="text-[#9B9590] font-medium">Proyección ilustrativa</strong>{' '}
-              basada en historial operativo. Las rentabilidades pasadas no garantizan resultados futuros.
-              El trading con activos digitales conlleva riesgo significativo de pérdida de capital.
+            <AlertTriangle size={14} className="text-[#7A7570] flex-shrink-0 mt-px" />
+            <p className="text-[12px] text-[#7A7570] leading-[1.7]">
+              <strong className="text-[#9B9590] font-medium">Cálculo orientativo</strong>{' '}
+              basado en nuestro historial de trabajo. Las ganancias pasadas no garantizan lo mismo en el futuro.
+              Invertir en activos digitales conlleva riesgo de perder parte del dinero invertido.
             </p>
           </div>
         </motion.div>
