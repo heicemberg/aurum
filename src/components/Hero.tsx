@@ -158,7 +158,7 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.18, ease }}
-          className="text-lg lg:text-xl text-[#4A4845] max-w-[560px] mx-auto mb-10 font-light leading-[1.7]"
+          className="text-lg lg:text-xl text-[#4A4845] max-w-[560px] mx-auto mb-10 font-normal leading-[1.7]"
         >
           Elige un plan, envías tu dinero y nuestro equipo lo hace crecer
           comprando y vendiendo criptomonedas por ti.
