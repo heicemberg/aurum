@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  LogOut, Search, Send, Users, UserCheck, Plus, X, ChevronDown,
+  LogOut, Search, Send, Users, UserCheck, Plus, X,
   Tag, MoreHorizontal, Trash2, Check,
 } from 'lucide-react'
 import {
@@ -37,9 +37,7 @@ function AdminLogin({ onLogin }: { onLogin: (u: StaffUser) => void }) {
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" className={inputClass} />
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Contraseña" className={inputClass} />
             {error && <p className="text-[#B83232] text-xs">{error}</p>}
-            <button type="submit" className="w-full py-3 rounded-xl bg-[#C9A227] text-white font-medium text-sm hover:bg-[#B8941F] transition-colors">
-              Entrar
-            </button>
+            <button type="submit" className="w-full py-3 rounded-xl bg-[#C9A227] text-white font-medium text-sm hover:bg-[#B8941F] transition-colors">Entrar</button>
           </form>
           <p className="text-[#B8B4AF] text-xs mt-6 text-center">Acceso restringido · Solo equipo AURUM</p>
         </div>
@@ -57,15 +55,14 @@ function TagBadge({ label, color, onRemove }: { label: string; color: string; on
   )
 }
 
-function CreateGroupModal({ advisorId, onClose, onCreated }: { advisorId: string; onClose: () => void; onCreated: (g: ChatGroup) => void }) {
+function CreateGroupModal({ advisorId, onClose }: { advisorId: string; onClose: () => void }) {
   const [name, setName] = useState('')
   const groups = chatService.getGroups()
   const color = nextGroupColor(groups)
 
-  function create() {
+  async function create() {
     if (!name.trim()) return
-    const g = chatService.createGroup(name.trim(), color, advisorId)
-    onCreated(g)
+    await chatService.createGroup(name.trim(), color, advisorId)
     onClose()
   }
 
@@ -113,9 +110,7 @@ function ConvItem({ conv, active, groups, onClick, onAddToGroup, staffId }:
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-0.5">
-            <span className={`text-sm truncate ${conv.unreadAdmin > 0 ? 'text-[#1A1918] font-semibold' : 'text-[#4A4845]'}`}>
-              {conv.clientName}
-            </span>
+            <span className={`text-sm truncate ${conv.unreadAdmin > 0 ? 'text-[#1A1918] font-semibold' : 'text-[#4A4845]'}`}>{conv.clientName}</span>
             <div className="flex items-center gap-1.5 flex-shrink-0">
               {conv.unreadAdmin > 0 && (
                 <span className="w-4 h-4 rounded-full bg-[#C9A227] text-white font-mono text-[9px] flex items-center justify-center">{conv.unreadAdmin}</span>
@@ -138,10 +133,8 @@ function ConvItem({ conv, active, groups, onClick, onAddToGroup, staffId }:
             </div>
           )}
         </div>
-        <button
-          onClick={e => { e.stopPropagation(); setMenuOpen(!menuOpen) }}
-          className="opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 rounded-lg flex items-center justify-center text-[#9A9590] hover:text-[#4A4845] hover:bg-black/[0.05] flex-shrink-0"
-        >
+        <button onClick={e => { e.stopPropagation(); setMenuOpen(!menuOpen) }}
+          className="opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6 rounded-lg flex items-center justify-center text-[#9A9590] hover:text-[#4A4845] hover:bg-black/[0.05] flex-shrink-0">
           <MoreHorizontal size={13} />
         </button>
       </div>
@@ -196,16 +189,16 @@ function ChatWindow({ conv, staff }: { conv: Conversation; staff: StaffUser }) {
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 60)
   }, [messages])
 
-  function send() {
+  async function send() {
     if (!text.trim()) return
-    chatService.sendMessage(conv.id, staff.id, staff.name, staff.role, text.trim())
+    await chatService.sendMessage(conv.id, staff.id, staff.name, staff.role, text.trim())
     setText('')
     inputRef.current?.focus()
   }
 
-  function addTag() {
+  async function addTag() {
     if (!tagInput.trim()) return
-    chatService.addTag(conv.id, tagInput.trim())
+    await chatService.addTag(conv.id, tagInput.trim())
     setTagInput('')
     setShowTagInput(false)
   }
@@ -232,13 +225,11 @@ function ChatWindow({ conv, staff }: { conv: Conversation; staff: StaffUser }) {
             <div className="text-[#9A9590] font-mono text-[10px]">{conv.clientEmail}</div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          {conv.plan && (
-            <span className="font-mono text-[10px] text-[#B8941F] border border-[#C9A227]/20 bg-[#C9A227]/[0.06] rounded-full px-2.5 py-1">
-              {conv.plan}
-            </span>
-          )}
-        </div>
+        {conv.plan && (
+          <span className="font-mono text-[10px] text-[#B8941F] border border-[#C9A227]/20 bg-[#C9A227]/[0.06] rounded-full px-2.5 py-1">
+            {conv.plan}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 min-h-0">
@@ -283,16 +274,11 @@ function ChatWindow({ conv, staff }: { conv: Conversation; staff: StaffUser }) {
           </div>
 
           <div className="px-4 py-3 border-t border-black/[0.07] flex items-end gap-2 flex-shrink-0 bg-white">
-            <textarea
-              ref={inputRef}
-              value={text}
-              onChange={e => setText(e.target.value)}
+            <textarea ref={inputRef} value={text} onChange={e => setText(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() } }}
-              placeholder={`Responder a ${conv.clientName}...`}
-              rows={1}
+              placeholder={`Responder a ${conv.clientName}...`} rows={1}
               className="flex-1 bg-[#F8F7F5] border border-black/[0.08] rounded-xl px-3.5 py-2.5 text-[#1A1918] text-sm placeholder:text-[#C5C1BC] resize-none focus:outline-none focus:border-[#C9A227]/40 transition-colors"
-              style={{ maxHeight: 96 }}
-            />
+              style={{ maxHeight: 96 }} />
             <button onClick={send} disabled={!text.trim()}
               className="w-9 h-9 rounded-xl bg-[#C9A227] flex items-center justify-center disabled:opacity-30 hover:bg-[#B8941F] transition-colors flex-shrink-0">
               <Send size={14} className="text-white" />
@@ -356,7 +342,7 @@ function AdminPanel({ staff, onLogout }: { staff: StaffUser; onLogout: () => voi
   }, [])
 
   useEffect(() => {
-    refresh()
+    chatService.initForAdmin().then(refresh)
     return chatService.subscribe(refresh)
   }, [refresh])
 
@@ -369,7 +355,10 @@ function AdminPanel({ staff, onLogout }: { staff: StaffUser; onLogout: () => voi
     const g = groups.find(g => g.id === view)
     filtered = g ? filtered.filter(c => g.conversationIds.includes(c.id)) : filtered
   }
-  if (search) filtered = filtered.filter(c => c.clientName.toLowerCase().includes(search.toLowerCase()) || c.clientEmail.toLowerCase().includes(search.toLowerCase()))
+  if (search) filtered = filtered.filter(c =>
+    c.clientName.toLowerCase().includes(search.toLowerCase()) ||
+    c.clientEmail.toLowerCase().includes(search.toLowerCase())
+  )
   filtered = [...filtered].sort((a, b) => (b.lastMessageAt ?? '').localeCompare(a.lastMessageAt ?? ''))
 
   const totalUnread = conversations.reduce((s, c) => s + c.unreadAdmin, 0)
@@ -407,25 +396,21 @@ function AdminPanel({ staff, onLogout }: { staff: StaffUser; onLogout: () => voi
           <div className="flex gap-1 p-2.5 border-b border-black/[0.07]">
             <button onClick={() => setView('all')}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg font-mono text-[11px] transition-colors ${view === 'all' ? 'bg-[#C9A227]/[0.08] text-[#B8941F]' : 'text-[#9A9590] hover:text-[#4A4845]'}`}>
-              <Users size={11} />
-              General
+              <Users size={11} /> General
               {totalUnread > 0 && view !== 'all' && (
                 <span className="w-4 h-4 rounded-full bg-[#C9A227] text-white text-[9px] flex items-center justify-center">{totalUnread}</span>
               )}
             </button>
             <button onClick={() => setView('mine')}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg font-mono text-[11px] transition-colors ${view === 'mine' ? 'bg-[#C9A227]/[0.08] text-[#B8941F]' : 'text-[#9A9590] hover:text-[#4A4845]'}`}>
-              <UserCheck size={11} />
-              Mis clientes
+              <UserCheck size={11} /> Mis clientes
             </button>
           </div>
 
           <div className="px-3 pt-3 pb-1">
             <div className="flex items-center justify-between mb-2">
               <span className="font-mono text-[9px] text-[#B8B4AF] uppercase tracking-wider">Grupos</span>
-              <button onClick={() => setShowCreateGroup(true)} className="text-[#9A9590] hover:text-[#C9A227] transition-colors">
-                <Plus size={12} />
-              </button>
+              <button onClick={() => setShowCreateGroup(true)} className="text-[#9A9590] hover:text-[#C9A227] transition-colors"><Plus size={12} /></button>
             </div>
             <div className="space-y-0.5">
               {myGroups.map(g => (
@@ -434,9 +419,8 @@ function AdminPanel({ staff, onLogout }: { staff: StaffUser; onLogout: () => voi
                   <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: g.color }} />
                   <span className="text-[#4A4845] text-xs flex-1 truncate">{g.name}</span>
                   <span className="text-[#B8B4AF] font-mono text-[10px]">{g.conversationIds.length}</span>
-                  <button onClick={e => { e.stopPropagation(); chatService.deleteGroup(g.id) }} className="opacity-0 group-hover:opacity-100 text-[#B8B4AF] hover:text-[#B83232] transition-colors">
-                    <Trash2 size={10} />
-                  </button>
+                  <button onClick={e => { e.stopPropagation(); chatService.deleteGroup(g.id) }}
+                    className="text-[#B8B4AF] hover:text-[#B83232] transition-colors"><Trash2 size={10} /></button>
                 </button>
               ))}
               {myGroups.length === 0 && (
@@ -482,7 +466,7 @@ function AdminPanel({ staff, onLogout }: { staff: StaffUser; onLogout: () => voi
       </div>
 
       {showCreateGroup && (
-        <CreateGroupModal advisorId={staff.id} onClose={() => setShowCreateGroup(false)} onCreated={() => refresh()} />
+        <CreateGroupModal advisorId={staff.id} onClose={() => setShowCreateGroup(false)} />
       )}
     </div>
   )
@@ -490,8 +474,7 @@ function AdminPanel({ staff, onLogout }: { staff: StaffUser; onLogout: () => voi
 
 export default function Admin() {
   const [staff, setStaff] = useState<StaffUser | null>(null)
-
   return staff
-    ? <AdminPanel staff={staff} onLogout={() => setStaff(null)} />
+    ? <AdminPanel staff={staff} onLogout={() => { chatService.cleanup(); setStaff(null) }} />
     : <AdminLogin onLogin={setStaff} />
 }

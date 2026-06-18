@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { LogOut, Copy, Check, Clock, TrendingUp, Wallet, MessageCircle, ChevronRight, Play } from 'lucide-react'
+import { LogOut, Copy, Check, Clock, TrendingUp, Wallet, MessageCircle, ChevronRight, Play, Loader2 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import ClientChat from '@/components/chat/ClientChat'
 
@@ -206,18 +206,27 @@ function ActivePlanState({ user }: { user: NonNullable<ReturnType<typeof useAuth
 }
 
 export default function Dashboard() {
-  const { user, logout, activatePlan } = useAuth()
+  const { user, loading, logout, activatePlan } = useAuth()
   const navigate = useNavigate()
 
-  if (!user) {
-    navigate('/login')
-    return null
-  }
+  useEffect(() => {
+    if (!loading && !user) navigate('/login')
+  }, [loading, user, navigate])
 
-  function handleLogout() {
-    logout()
+  async function handleLogout() {
+    await logout()
     navigate('/')
   }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F8F7F5] flex items-center justify-center">
+        <Loader2 size={22} className="text-[#C9A227] animate-spin" />
+      </div>
+    )
+  }
+
+  if (!user) return null
 
   const ease = [0.25, 0.46, 0.45, 0.94] as const
 

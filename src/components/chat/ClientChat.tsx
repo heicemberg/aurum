@@ -57,10 +57,7 @@ export default function ClientChat() {
 
   useEffect(() => {
     if (!user) return
-    chatService.createConversation(
-      user.email, user.name, user.email,
-      user.selectedPlan?.name, user.investedAmount,
-    )
+    chatService.createConversation(user.email, user.name, user.email, user.selectedPlan?.name, user.investedAmount)
     refresh()
     return chatService.subscribe(refresh)
   }, [user, refresh])
@@ -82,11 +79,11 @@ export default function ClientChat() {
     el.style.height = Math.min(el.scrollHeight, 120) + 'px'
   }
 
-  function send(msg?: string) {
+  async function send(msg?: string) {
     const content = (msg ?? text).trim()
     if (!content || !user || sending) return
     setSending(true)
-    chatService.sendMessage(conversationId, user.email, user.name, 'client', content)
+    await chatService.sendMessage(conversationId, user.email, user.name, 'client', content)
     setText('')
     if (inputRef.current) { inputRef.current.style.height = 'auto' }
     setSending(false)
@@ -135,10 +132,8 @@ export default function ClientChat() {
         </AnimatePresence>
         <AnimatePresence>
           {unread > 0 && !open && (
-            <motion.span
-              initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#B83232] text-white font-mono text-[10px] flex items-center justify-center border-2 border-white"
-            >
+            <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
+              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#B83232] text-white font-mono text-[10px] flex items-center justify-center border-2 border-white">
               {unread > 9 ? '9+' : unread}
             </motion.span>
           )}
@@ -200,23 +195,15 @@ export default function ClientChat() {
                     const isMe = m.senderRole === 'client'
                     const isLast = idx === msgs.length - 1
                     return (
-                      <motion.div
-                        key={m.id}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.18 }}
-                        className={`flex mb-1.5 ${isMe ? 'justify-end' : 'justify-start'}`}
-                      >
+                      <motion.div key={m.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.18 }}
+                        className={`flex mb-1.5 ${isMe ? 'justify-end' : 'justify-start'}`}>
                         {!isMe && (
                           <div className="w-6 h-6 rounded-full bg-[#C9A227]/10 flex items-center justify-center mr-2 mt-auto mb-0.5 flex-shrink-0 border border-[#C9A227]/15">
                             <span className="text-[#B8941F] text-[9px] font-bold">A</span>
                           </div>
                         )}
                         <div className="max-w-[78%]">
-                          <div className={`rounded-2xl px-3.5 py-2.5 ${isMe
-                            ? 'bg-[#C9A227] text-white rounded-br-[6px]'
-                            : 'bg-[#F8F7F5] text-[#1A1918] rounded-bl-[6px] border border-black/[0.07]'
-                          }`}>
+                          <div className={`rounded-2xl px-3.5 py-2.5 ${isMe ? 'bg-[#C9A227] text-white rounded-br-[6px]' : 'bg-[#F8F7F5] text-[#1A1918] rounded-bl-[6px] border border-black/[0.07]'}`}>
                             <p className="text-[13.5px] leading-[1.55] break-words whitespace-pre-wrap">{m.text}</p>
                           </div>
                           {isLast && (
@@ -249,13 +236,10 @@ export default function ClientChat() {
 
             <div className="px-3 pb-3 pt-2 border-t border-black/[0.07] flex items-end gap-2 flex-shrink-0 bg-white">
               <div className="flex-1 relative">
-                <textarea
-                  ref={inputRef}
-                  value={text}
+                <textarea ref={inputRef} value={text}
                   onChange={e => { setText(e.target.value); adjustHeight(e.target) }}
                   onKeyDown={handleKey}
-                  placeholder="Escribe tu mensaje..."
-                  rows={1}
+                  placeholder="Escribe tu mensaje..." rows={1}
                   className="w-full bg-[#F8F7F5] border border-black/[0.08] rounded-xl px-3.5 py-2.5 pr-9 text-[#1A1918] text-sm placeholder:text-[#C5C1BC] resize-none focus:outline-none focus:border-[#C9A227]/40 transition-colors leading-[1.5]"
                   style={{ minHeight: 40, maxHeight: 120, overflowY: 'auto' }}
                 />
@@ -263,12 +247,8 @@ export default function ClientChat() {
                   <Smile size={15} />
                 </button>
               </div>
-              <motion.button
-                whileTap={{ scale: 0.92 }}
-                onClick={() => send()}
-                disabled={!text.trim()}
-                className="w-10 h-10 rounded-xl bg-[#C9A227] flex items-center justify-center disabled:opacity-30 hover:bg-[#B8941F] transition-colors flex-shrink-0"
-              >
+              <motion.button whileTap={{ scale: 0.92 }} onClick={() => send()} disabled={!text.trim() || sending}
+                className="w-10 h-10 rounded-xl bg-[#C9A227] flex items-center justify-center disabled:opacity-30 hover:bg-[#B8941F] transition-colors flex-shrink-0">
                 <Send size={15} className="text-white" />
               </motion.button>
             </div>

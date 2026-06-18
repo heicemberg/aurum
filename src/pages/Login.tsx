@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, EyeOff, ArrowRight } from 'lucide-react'
+import { Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { Button } from '@/components/ui/button'
 
@@ -12,12 +12,19 @@ export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    const ok = login(email, password)
-    if (ok) navigate('/dashboard')
-    else setError('Email o contraseña incorrectos')
+    setLoading(true)
+    setError('')
+    const err = await login(email, password)
+    if (err) {
+      setError(err)
+      setLoading(false)
+    } else {
+      navigate('/dashboard')
+    }
   }
 
   const ease = [0.25, 0.46, 0.45, 0.94] as const
@@ -72,8 +79,8 @@ export default function Login() {
                 </div>
               </div>
               {error && <p className="text-[#B83232] text-xs">{error}</p>}
-              <Button type="submit" className="w-full gap-2">
-                Acceder <ArrowRight size={14} />
+              <Button type="submit" className="w-full gap-2" disabled={loading}>
+                {loading ? <Loader2 size={14} className="animate-spin" /> : <><span>Acceder</span><ArrowRight size={14} /></>}
               </Button>
             </form>
           </div>

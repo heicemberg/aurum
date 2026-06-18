@@ -28,7 +28,7 @@ function Landing() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#0A0B0D]">
+    <div className="min-h-screen bg-[#F8F7F5]">
       <Navbar />
       <main>
         <Hero />
