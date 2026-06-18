@@ -44,14 +44,14 @@ export default function Navbar() {
     >
       <div className={`max-w-5xl mx-auto rounded-2xl transition-all duration-500 ${
         scrolled
-          ? 'bg-[rgba(17,20,24,0.85)] backdrop-blur-2xl border border-[rgba(245,240,232,0.09)] shadow-[0_8px_32px_rgba(0,0,0,0.35)]'
-          : 'bg-[rgba(17,20,24,0.35)] backdrop-blur-xl border border-[rgba(245,240,232,0.04)]'
+          ? 'bg-white/90 backdrop-blur-2xl border border-black/[0.08] shadow-[0_4px_24px_rgba(0,0,0,0.08)]'
+          : 'bg-white/70 backdrop-blur-xl border border-black/[0.06]'
       }`}>
         <div className="px-5 lg:px-6">
           <div className="flex items-center justify-between h-14 lg:h-16">
             <Link to="/" className="flex items-center gap-2.5 group">
               <span className="w-[5px] h-[5px] rounded-full bg-[#C9A227]" />
-              <span className="font-serif text-xl text-[#F5F0E8] tracking-[0.14em]">AURUM</span>
+              <span className="font-serif text-xl text-[#1A1918] tracking-[0.14em]">AURUM</span>
             </Link>
 
             <nav className="hidden lg:flex items-center gap-1">
@@ -60,7 +60,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={e => handleNavLink(e, link.href)}
-                  className="font-mono text-[12px] text-[#9B9590] hover:text-[#F5F0E8] px-3.5 py-2 rounded-full hover:bg-[rgba(245,240,232,0.05)] transition-colors duration-200"
+                  className="font-mono text-[12px] text-[#6B6862] hover:text-[#1A1918] px-3.5 py-2 rounded-full hover:bg-black/[0.04] transition-colors duration-200"
                 >
                   {link.label}
                 </a>
@@ -74,13 +74,13 @@ export default function Navbar() {
                     <LayoutDashboard size={13} />
                     Mi panel
                   </Button>
-                  <button onClick={() => { logout(); navigate('/') }} className="font-mono text-[11px] text-[#5A5650] hover:text-[#9B9590] px-3 py-2 transition-colors">
+                  <button onClick={() => { logout(); navigate('/') }} className="font-mono text-[11px] text-[#9A9590] hover:text-[#4A4845] px-3 py-2 transition-colors">
                     Salir
                   </button>
                 </>
               ) : (
                 <>
-                  <button onClick={() => navigate('/login')} className="font-mono text-[12px] text-[#9B9590] hover:text-[#F5F0E8] px-3.5 py-2 rounded-full hover:bg-[rgba(245,240,232,0.05)] transition-colors">
+                  <button onClick={() => navigate('/login')} className="font-mono text-[12px] text-[#6B6862] hover:text-[#1A1918] px-3.5 py-2 rounded-full hover:bg-black/[0.04] transition-colors">
                     Iniciar sesión
                   </button>
                   <Button size="sm" onClick={() => navigate('/register')}>Comenzar</Button>
@@ -90,7 +90,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden text-[#9B9590] hover:text-[#F5F0E8] transition-colors p-1"
+              className="lg:hidden text-[#6B6862] hover:text-[#1A1918] transition-colors p-1"
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -105,7 +105,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25 }}
-              className="lg:hidden overflow-hidden border-t border-[rgba(201,162,39,0.08)]"
+              className="lg:hidden overflow-hidden border-t border-black/[0.06]"
             >
               <nav className="px-5 py-5 flex flex-col gap-1">
                 {NAV_LINKS.map((link) => (
@@ -113,7 +113,7 @@ export default function Navbar() {
                     key={link.label}
                     href={link.href}
                     onClick={e => handleNavLink(e, link.href)}
-                    className="font-mono text-[12px] text-[#9B9590] hover:text-[#F5F0E8] transition-colors py-2.5"
+                    className="font-mono text-[12px] text-[#6B6862] hover:text-[#1A1918] transition-colors py-2.5"
                   >
                     {link.label}
                   </a>
@@ -124,14 +124,14 @@ export default function Navbar() {
                       <Button className="w-full gap-2" onClick={() => { navigate('/dashboard'); setMobileOpen(false) }}>
                         <LayoutDashboard size={13} /> Mi panel
                       </Button>
-                      <button onClick={() => { logout(); navigate('/'); setMobileOpen(false) }} className="font-mono text-[11px] text-[#5A5650] py-2">
+                      <button onClick={() => { logout(); navigate('/'); setMobileOpen(false) }} className="font-mono text-[11px] text-[#9A9590] py-2">
                         Cerrar sesión
                       </button>
                     </>
                   ) : (
                     <>
                       <Button className="w-full" onClick={() => { navigate('/register'); setMobileOpen(false) }}>Comenzar a invertir</Button>
-                      <button onClick={() => { navigate('/login'); setMobileOpen(false) }} className="font-mono text-[11px] text-[#9B9590] py-2">
+                      <button onClick={() => { navigate('/login'); setMobileOpen(false) }} className="font-mono text-[11px] text-[#6B6862] py-2">
                         Ya tengo cuenta
                       </button>
                     </>

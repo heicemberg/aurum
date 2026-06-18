@@ -13,9 +13,9 @@ const QUICK_REPLIES = [
 function DateSeparator({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 my-5">
-      <div className="flex-1 h-px bg-[rgba(245,240,232,0.06)]" />
-      <span className="font-mono text-[9px] text-[#3D3A36] uppercase tracking-widest">{label}</span>
-      <div className="flex-1 h-px bg-[rgba(245,240,232,0.06)]" />
+      <div className="flex-1 h-px bg-black/[0.06]" />
+      <span className="font-mono text-[9px] text-[#B8B4AF] uppercase tracking-widest">{label}</span>
+      <div className="flex-1 h-px bg-black/[0.06]" />
     </div>
   )
 }
@@ -23,9 +23,9 @@ function DateSeparator({ label }: { label: string }) {
 function TypingIndicator() {
   return (
     <div className="flex justify-start mb-3">
-      <div className="bg-[rgba(245,240,232,0.06)] rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1">
+      <div className="bg-black/[0.05] rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1">
         {[0, 1, 2].map(i => (
-          <motion.span key={i} className="w-1.5 h-1.5 rounded-full bg-[#5A5650]"
+          <motion.span key={i} className="w-1.5 h-1.5 rounded-full bg-[#B8B4AF]"
             animate={{ y: [0, -4, 0] }}
             transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.15 }} />
         ))}
@@ -65,13 +65,11 @@ export default function ClientChat() {
     return chatService.subscribe(refresh)
   }, [user, refresh])
 
-  // Auto-scroll when messages change or chat opens
   useEffect(() => {
     if (!open) return
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 60)
   }, [messages, open])
 
-  // Mark read when opened
   useEffect(() => {
     if (open && conversationId) {
       chatService.markRead(conversationId, 'client')
@@ -79,7 +77,6 @@ export default function ClientChat() {
     }
   }, [open, conversationId])
 
-  // Auto-resize textarea
   function adjustHeight(el: HTMLTextAreaElement) {
     el.style.height = 'auto'
     el.style.height = Math.min(el.scrollHeight, 120) + 'px'
@@ -95,7 +92,6 @@ export default function ClientChat() {
     setSending(false)
     inputRef.current?.focus()
 
-    // Simulate advisor typing response after 1-3s
     if (typingTimer.current) clearTimeout(typingTimer.current)
     typingTimer.current = setTimeout(() => {
       setShowTyping(true)
@@ -109,7 +105,6 @@ export default function ClientChat() {
 
   if (!user) return null
 
-  // Group messages by date
   const grouped = messages.reduce<{ date: string; msgs: ChatMessage[] }[]>((acc, m) => {
     const label = formatChatDate(m.createdAt)
     const last = acc[acc.length - 1]
@@ -122,20 +117,19 @@ export default function ClientChat() {
 
   return (
     <>
-      {/* Floating button */}
       <motion.button
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setOpen(v => !v)}
-        className="fixed bottom-6 right-6 z-40 w-[52px] h-[52px] rounded-full bg-[#C9A227] shadow-[0_4px_28px_rgba(201,162,39,0.4)] flex items-center justify-center"
+        className="fixed bottom-6 right-6 z-40 w-[52px] h-[52px] rounded-full bg-[#C9A227] shadow-[0_4px_20px_rgba(201,162,39,0.35)] flex items-center justify-center"
       >
         <AnimatePresence mode="wait">
           {open
             ? <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.18 }}>
-                <X size={20} className="text-[#0A0B0D]" />
+                <X size={20} className="text-white" />
               </motion.div>
             : <motion.div key="chat" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.18 }}>
-                <MessageCircle size={22} className="text-[#0A0B0D]" />
+                <MessageCircle size={22} className="text-white" />
               </motion.div>
           }
         </AnimatePresence>
@@ -143,7 +137,7 @@ export default function ClientChat() {
           {unread > 0 && !open && (
             <motion.span
               initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#B4634F] text-white font-mono text-[10px] flex items-center justify-center border-2 border-[#0A0B0D]"
+              className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#B83232] text-white font-mono text-[10px] flex items-center justify-center border-2 border-white"
             >
               {unread > 9 ? '9+' : unread}
             </motion.span>
@@ -151,7 +145,6 @@ export default function ClientChat() {
         </AnimatePresence>
       </motion.button>
 
-      {/* Chat panel */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -159,44 +152,40 @@ export default function ClientChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="fixed bottom-[76px] right-6 z-50 w-[348px] sm:w-[380px] rounded-2xl border border-[rgba(245,240,232,0.1)] bg-[#111418] shadow-[0_28px_72px_rgba(0,0,0,0.55)] flex flex-col overflow-hidden"
+            className="fixed bottom-[76px] right-6 z-50 w-[348px] sm:w-[380px] rounded-2xl border border-black/[0.1] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden"
             style={{ height: 520 }}
           >
-            {/* Header */}
-            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[rgba(245,240,232,0.07)] bg-[#0E1014] flex-shrink-0">
+            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-black/[0.07] bg-[#F8F7F5] flex-shrink-0">
               <div className="relative flex-shrink-0">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[rgba(201,162,39,0.25)] to-[rgba(201,162,39,0.08)] flex items-center justify-center border border-[rgba(201,162,39,0.2)]">
-                  <span className="font-serif text-[#C9A227] text-base font-medium">A</span>
+                <div className="w-9 h-9 rounded-full bg-[#C9A227]/10 flex items-center justify-center border border-[#C9A227]/20">
+                  <span className="font-serif text-[#B8941F] text-base font-medium">A</span>
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#6FBF8B] border-2 border-[#0E1014]" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#1E7A47] border-2 border-[#F8F7F5]" />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[#F5F0E8] text-sm font-medium leading-tight">Tu asesor AURUM</div>
+                <div className="text-[#1A1918] text-sm font-semibold leading-tight">Tu asesor AURUM</div>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#6FBF8B]" />
-                  <span className="text-[#6FBF8B] font-mono text-[10px]">En línea · responde en &lt;4h</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#1E7A47]" />
+                  <span className="text-[#1E7A47] font-mono text-[10px]">En línea · responde en menos de 4h</span>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="text-[#5A5650] hover:text-[#9B9590] transition-colors p-1">
+              <button onClick={() => setOpen(false)} className="text-[#9A9590] hover:text-[#4A4845] transition-colors p-1">
                 <X size={15} />
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-4 py-3 scroll-smooth">
+            <div className="flex-1 overflow-y-auto px-4 py-3 scroll-smooth bg-white">
               {!hasMessages && (
                 <div className="h-full flex flex-col items-center justify-center text-center px-4">
-                  <div className="w-14 h-14 rounded-full bg-[rgba(201,162,39,0.07)] flex items-center justify-center mb-4 border border-[rgba(201,162,39,0.12)]">
-                    <MessageCircle size={22} className="text-[rgba(201,162,39,0.5)]" />
+                  <div className="w-14 h-14 rounded-full bg-[#C9A227]/[0.07] flex items-center justify-center mb-4 border border-[#C9A227]/15">
+                    <MessageCircle size={22} className="text-[#C9A227]/60" />
                   </div>
-                  <p className="text-[#F5F0E8] text-sm font-medium mb-1">Hola, {user.name.split(' ')[0]}</p>
-                  <p className="text-[#5A5650] text-xs leading-relaxed">Estamos aquí para ayudarte con cualquier duda sobre tu inversión.</p>
-
-                  {/* Quick replies */}
+                  <p className="text-[#1A1918] text-sm font-semibold mb-1">Hola, {user.name.split(' ')[0]}</p>
+                  <p className="text-[#6B6862] text-xs leading-relaxed">Estamos aquí para ayudarte con cualquier duda sobre tu inversión.</p>
                   <div className="mt-5 w-full space-y-2">
                     {QUICK_REPLIES.map(q => (
                       <button key={q} onClick={() => send(q)}
-                        className="w-full text-left text-xs text-[#9B9590] border border-[rgba(245,240,232,0.08)] rounded-xl px-3.5 py-2.5 hover:border-[rgba(201,162,39,0.25)] hover:text-[#F5F0E8] transition-colors">
+                        className="w-full text-left text-xs text-[#6B6862] border border-black/[0.08] rounded-xl px-3.5 py-2.5 hover:border-[#C9A227]/30 hover:text-[#1A1918] transition-colors">
                         {q}
                       </button>
                     ))}
@@ -219,21 +208,21 @@ export default function ClientChat() {
                         className={`flex mb-1.5 ${isMe ? 'justify-end' : 'justify-start'}`}
                       >
                         {!isMe && (
-                          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[rgba(201,162,39,0.2)] to-[rgba(201,162,39,0.06)] flex items-center justify-center mr-2 mt-auto mb-0.5 flex-shrink-0">
-                            <span className="text-[#C9A227] text-[9px] font-bold">A</span>
+                          <div className="w-6 h-6 rounded-full bg-[#C9A227]/10 flex items-center justify-center mr-2 mt-auto mb-0.5 flex-shrink-0 border border-[#C9A227]/15">
+                            <span className="text-[#B8941F] text-[9px] font-bold">A</span>
                           </div>
                         )}
                         <div className="max-w-[78%]">
                           <div className={`rounded-2xl px-3.5 py-2.5 ${isMe
-                            ? 'bg-[#C9A227] text-[#0A0B0D] rounded-br-[6px]'
-                            : 'bg-[rgba(245,240,232,0.07)] text-[#F5F0E8] rounded-bl-[6px] border border-[rgba(245,240,232,0.05)]'
+                            ? 'bg-[#C9A227] text-white rounded-br-[6px]'
+                            : 'bg-[#F8F7F5] text-[#1A1918] rounded-bl-[6px] border border-black/[0.07]'
                           }`}>
                             <p className="text-[13.5px] leading-[1.55] break-words whitespace-pre-wrap">{m.text}</p>
                           </div>
                           {isLast && (
-                            <div className={`text-[10px] mt-1 font-mono ${isMe ? 'text-right text-[#5A5650]' : 'text-left text-[#3D3A36]'}`}>
+                            <div className={`text-[10px] mt-1 font-mono ${isMe ? 'text-right text-[#9A9590]' : 'text-left text-[#B8B4AF]'}`}>
                               {formatChatTime(m.createdAt)}
-                              {isMe && <span className="ml-1 text-[#5A5650]">✓</span>}
+                              {isMe && <span className="ml-1 text-[#9A9590]">✓</span>}
                             </div>
                           )}
                         </div>
@@ -247,20 +236,18 @@ export default function ClientChat() {
               <div ref={bottomRef} />
             </div>
 
-            {/* Quick replies when has messages */}
             {hasMessages && !text && (
-              <div className="px-3 pb-1 flex gap-1.5 overflow-x-auto scrollbar-none flex-shrink-0">
+              <div className="px-3 pb-1 flex gap-1.5 overflow-x-auto scrollbar-none flex-shrink-0 border-t border-black/[0.05]">
                 {QUICK_REPLIES.slice(0, 2).map(q => (
                   <button key={q} onClick={() => send(q)}
-                    className="flex-shrink-0 text-[11px] text-[#5A5650] border border-[rgba(245,240,232,0.07)] rounded-full px-3 py-1 hover:text-[#9B9590] hover:border-[rgba(245,240,232,0.12)] transition-colors whitespace-nowrap">
+                    className="flex-shrink-0 text-[11px] text-[#6B6862] border border-black/[0.08] rounded-full px-3 py-1 hover:text-[#1A1918] hover:border-black/[0.15] transition-colors whitespace-nowrap mt-2">
                     {q}
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Input */}
-            <div className="px-3 pb-3 pt-2 border-t border-[rgba(245,240,232,0.07)] flex items-end gap-2 flex-shrink-0">
+            <div className="px-3 pb-3 pt-2 border-t border-black/[0.07] flex items-end gap-2 flex-shrink-0 bg-white">
               <div className="flex-1 relative">
                 <textarea
                   ref={inputRef}
@@ -269,10 +256,10 @@ export default function ClientChat() {
                   onKeyDown={handleKey}
                   placeholder="Escribe tu mensaje..."
                   rows={1}
-                  className="w-full bg-[rgba(245,240,232,0.05)] border border-[rgba(245,240,232,0.09)] rounded-xl px-3.5 py-2.5 pr-9 text-[#F5F0E8] text-sm placeholder:text-[#3D3A36] resize-none focus:outline-none focus:border-[rgba(201,162,39,0.35)] transition-colors leading-[1.5]"
+                  className="w-full bg-[#F8F7F5] border border-black/[0.08] rounded-xl px-3.5 py-2.5 pr-9 text-[#1A1918] text-sm placeholder:text-[#C5C1BC] resize-none focus:outline-none focus:border-[#C9A227]/40 transition-colors leading-[1.5]"
                   style={{ minHeight: 40, maxHeight: 120, overflowY: 'auto' }}
                 />
-                <button className="absolute right-2.5 bottom-2.5 text-[#3D3A36] hover:text-[#5A5650] transition-colors">
+                <button className="absolute right-2.5 bottom-2.5 text-[#B8B4AF] hover:text-[#9A9590] transition-colors">
                   <Smile size={15} />
                 </button>
               </div>
@@ -280,9 +267,9 @@ export default function ClientChat() {
                 whileTap={{ scale: 0.92 }}
                 onClick={() => send()}
                 disabled={!text.trim()}
-                className="w-10 h-10 rounded-xl bg-[#C9A227] flex items-center justify-center disabled:opacity-25 hover:bg-[#E8BE3A] transition-colors flex-shrink-0"
+                className="w-10 h-10 rounded-xl bg-[#C9A227] flex items-center justify-center disabled:opacity-30 hover:bg-[#B8941F] transition-colors flex-shrink-0"
               >
-                <Send size={15} className="text-[#0A0B0D]" />
+                <Send size={15} className="text-white" />
               </motion.button>
             </div>
           </motion.div>

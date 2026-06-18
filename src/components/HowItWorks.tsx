@@ -22,7 +22,7 @@ const STEPS = [
     n: '03',
     Icon: SendHorizontal,
     title: 'Envías tu dinero',
-    body: 'Mandas dólares digitales (USDT) a nuestra dirección verificada. Nuestro equipo confirma el pago y activa tu plan en menos de 24 horas. Te decimos exactamente cómo hacerlo, paso a paso.',
+    body: 'Mandas dólares digitales a nuestra dirección verificada. Nuestro equipo confirma el pago y activa tu plan en menos de 24 horas. Te guiamos paso a paso.',
     pill: 'Te guiamos en cada paso',
   },
   {
@@ -39,7 +39,7 @@ export default function HowItWorks() {
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="como-funciona" ref={ref} className="py-32 bg-[#0A0B0D]">
+    <section id="como-funciona" ref={ref} className="py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -50,11 +50,11 @@ export default function HowItWorks() {
           <div className="flex justify-center">
             <SectionTag>Cómo funciona</SectionTag>
           </div>
-          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] max-w-xl mx-auto leading-tight tracking-tight">
+          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#1A1918] max-w-xl mx-auto leading-tight tracking-tight">
             Tan simple que{' '}
             <span className="text-[#C9A227] italic">cualquiera puede hacerlo.</span>
           </h2>
-          <p className="text-[#9B9590] text-sm mt-4 max-w-md mx-auto leading-relaxed">
+          <p className="text-[#6B6862] text-sm mt-4 max-w-md mx-auto leading-relaxed">
             No necesitas saber nada de criptomonedas. No necesitas instalar ninguna aplicación.
             Solo elige, envías tu dinero y nosotros hacemos todo el trabajo.
           </p>
@@ -67,23 +67,23 @@ export default function HowItWorks() {
               initial={{ opacity: 0, y: 36 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: i * 0.12 }}
-              className="group relative rounded-2xl border border-[rgba(245,240,232,0.07)] bg-[#111418] p-7 hover:border-[rgba(201,162,39,0.28)] transition-all duration-300 hover:-translate-y-1"
+              className="group relative rounded-2xl border border-black/[0.07] bg-[#F8F7F5] p-7 hover:border-[#C9A227]/30 hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] transition-all duration-300 hover:-translate-y-1"
             >
-              <span className="font-serif text-[64px] leading-none text-[rgba(245,240,232,0.03)] absolute top-4 right-5 select-none pointer-events-none">
+              <span className="font-serif text-[64px] leading-none text-black/[0.04] absolute top-4 right-5 select-none pointer-events-none">
                 {n}
               </span>
-              <div className="w-10 h-10 rounded-xl border border-[rgba(201,162,39,0.18)] flex items-center justify-center mb-6">
+              <div className="w-10 h-10 rounded-xl border border-[#C9A227]/20 bg-[#C9A227]/[0.07] flex items-center justify-center mb-6">
                 <Icon size={17} className="text-[#C9A227]" />
               </div>
-              <h3 className="text-[#F5F0E8] text-base font-semibold mb-3 tracking-tight">{title}</h3>
-              <p className="text-[#8A8580] text-[13px] leading-[1.75] mb-6">{body}</p>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(201,162,39,0.14)] px-3 py-1.5">
+              <h3 className="text-[#1A1918] text-base font-semibold mb-3 tracking-tight">{title}</h3>
+              <p className="text-[#6B6862] text-[13px] leading-[1.75] mb-6">{body}</p>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#C9A227]/20 bg-[#C9A227]/[0.05] px-3 py-1.5">
                 <span className="w-1 h-1 rounded-full bg-[#C9A227] flex-shrink-0" />
-                <span className="font-mono text-[10px] text-[#C9A227] tracking-wide">{pill}</span>
+                <span className="font-mono text-[10px] text-[#B8941F] tracking-wide">{pill}</span>
               </div>
               {i < STEPS.length - 1 && (
                 <div className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10 items-center">
-                  <div className="w-8 h-px bg-gradient-to-r from-[rgba(201,162,39,0.3)] to-transparent" />
+                  <div className="w-8 h-px bg-gradient-to-r from-[#C9A227]/30 to-transparent" />
                 </div>
               )}
             </motion.div>

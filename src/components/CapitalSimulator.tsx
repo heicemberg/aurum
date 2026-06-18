@@ -69,7 +69,7 @@ export default function CapitalSimulator() {
   ]
 
   return (
-    <section ref={ref} className="py-32 bg-[#0A0B0D]">
+    <section ref={ref} className="py-32 bg-[#F8F7F5]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -80,10 +80,10 @@ export default function CapitalSimulator() {
           <div className="flex justify-center">
             <SectionTag>Calculadora de ganancias</SectionTag>
           </div>
-          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] leading-tight tracking-tight">
+          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#1A1918] leading-tight tracking-tight">
             ¿Cuánto podría crecer tu dinero?
           </h2>
-          <p className="text-[#9B9590] mt-4 max-w-md mx-auto text-sm leading-relaxed">
+          <p className="text-[#6B6862] mt-4 max-w-md mx-auto text-sm leading-relaxed">
             Mueve la barra y ve cuánto podrías ganar según nuestro historial real.
             Son estimaciones: los resultados pueden variar según el mercado.
           </p>
@@ -93,14 +93,14 @@ export default function CapitalSimulator() {
           initial={{ opacity: 0, y: 32 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.12 }}
-          className="rounded-2xl border border-[rgba(201,162,39,0.15)] bg-[#111418] p-8 lg:p-12"
+          className="rounded-2xl border border-black/[0.08] bg-white shadow-[0_4px_24px_rgba(0,0,0,0.06)] p-8 lg:p-12"
         >
           <div className="mb-10">
             <div className="flex items-baseline justify-between mb-5">
-              <label className="font-mono text-xs text-[#8A8580] tracking-[0.15em] uppercase">Dinero a invertir</label>
-              <span className="font-serif text-4xl text-[#F5F0E8]">
+              <label className="font-mono text-xs text-[#9A9590] tracking-[0.15em] uppercase">Dinero a invertir</label>
+              <span className="font-serif text-4xl text-[#1A1918]">
                 <AnimatedValue target={capital} format={fmt} />
-                <span className="text-[#8A8580] text-xl ml-2">USD</span>
+                <span className="text-[#9A9590] text-xl ml-2">USD</span>
               </span>
             </div>
             <input
@@ -111,9 +111,9 @@ export default function CapitalSimulator() {
               value={capital}
               onChange={e => setCapital(Number(e.target.value))}
               className="w-full"
-              style={{ background: `linear-gradient(to right, #C9A227 ${pct}%, rgba(201,162,39,0.15) ${pct}%)` }}
+              style={{ background: `linear-gradient(to right, #C9A227 ${pct}%, rgba(0,0,0,0.1) ${pct}%)` }}
             />
-            <div className="flex justify-between mt-2.5 font-mono text-xs text-[#6A6560]">
+            <div className="flex justify-between mt-3 font-mono text-xs text-[#B8B4AF]">
               <span>$300 mínimo</span>
               <span>$10,000</span>
             </div>
@@ -121,21 +121,21 @@ export default function CapitalSimulator() {
 
           <div className="grid sm:grid-cols-3 gap-5 mb-8">
             {CARDS.map(({ Icon, label, value, sub }) => (
-              <div key={label} className="rounded-xl border border-[rgba(245,240,232,0.07)] p-5 lg:p-6">
-                <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#8A8580] tracking-[0.12em] uppercase mb-3">
-                  <Icon size={11} className="text-[rgba(201,162,39,0.5)]" />
+              <div key={label} className="rounded-xl border border-black/[0.07] bg-[#F8F7F5] p-5 lg:p-6">
+                <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#9A9590] tracking-[0.12em] uppercase mb-3">
+                  <Icon size={11} className="text-[#C9A227]/60" />
                   {label}
                 </div>
                 <div className="font-serif text-xl lg:text-2xl text-[#C9A227] leading-tight mb-2">{value}</div>
-                <div className="text-[11px] text-[#7A7570] leading-relaxed">{sub}</div>
+                <div className="text-[11px] text-[#9A9590] leading-relaxed">{sub}</div>
               </div>
             ))}
           </div>
 
-          <div className="flex items-start gap-3 border-t border-[rgba(245,240,232,0.08)] pt-5">
-            <AlertTriangle size={14} className="text-[#7A7570] flex-shrink-0 mt-px" />
-            <p className="text-[12px] text-[#7A7570] leading-[1.7]">
-              <strong className="text-[#9B9590] font-medium">Cálculo orientativo</strong>{' '}
+          <div className="flex items-start gap-3 border-t border-black/[0.06] pt-5">
+            <AlertTriangle size={14} className="text-[#9A9590] flex-shrink-0 mt-px" />
+            <p className="text-[12px] text-[#9A9590] leading-[1.7]">
+              <strong className="text-[#4A4845] font-medium">Cálculo orientativo</strong>{' '}
               basado en nuestro historial de trabajo. Las ganancias pasadas no garantizan lo mismo en el futuro.
               Invertir en activos digitales conlleva riesgo de perder parte del dinero invertido.
             </p>

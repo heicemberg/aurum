@@ -5,83 +5,68 @@ import SectionTag from '@/components/ui/section-tag'
 
 const TESTIMONIALS = [
   {
-    initials: 'LR',
     name: 'Luis R.',
     country: 'Venezuela',
-    plan: 'Starter · 30 días',
+    flag: '🇻🇪',
+    plan: 'Plan Básico',
     invested: 500,
-    received: 525,
-    gain: 25,
-    date: 'Marzo 2025',
-    quote: 'Nunca había invertido en criptomonedas. Empecé con $500 porque me daba miedo poner más. Al mes me llegaron los $525 a mi billetera exactamente como dijeron. Ahora tengo el plan Growth.',
+    returned: 525,
+    duration: '30 días',
     stars: 5,
+    quote: 'Nunca había invertido en nada. Me explicaron todo paso a paso y al mes tenía mis $25 extra. Parecía mentira pero fue real.',
   },
   {
-    initials: 'PG',
     name: 'Patricia G.',
     country: 'Colombia',
-    plan: 'Growth · 60 días',
+    flag: '🇨🇴',
+    plan: 'Plan Crecimiento',
     invested: 2000,
-    received: 2240,
-    gain: 240,
-    date: 'Enero 2025',
-    quote: 'Al principio dudé mucho. Hablé con María, mi gestora, y me explicó todo con paciencia. Cuando vi los $240 de ganancia en mi billetera digital, no lo podía creer. Ya voy en el segundo ciclo.',
+    returned: 2240,
+    duration: '60 días',
     stars: 5,
+    quote: 'Siempre tuve miedo de las criptomonedas. Aquí nunca tuve que entender nada técnico. Solo esperé y recibí mi dinero con ganancias.',
   },
   {
-    initials: 'MA',
     name: 'Miguel A.',
     country: 'México',
-    plan: 'Elite · 90 días',
+    flag: '🇲🇽',
+    plan: 'Plan Elite',
     invested: 5000,
-    received: 6100,
-    gain: 1100,
-    date: 'Febrero 2025',
-    quote: 'Soy ingeniero pero cero conocimiento de criptos. Me explicaron todo paso a paso, desde cómo enviar el dinero hasta cómo recibirlo. Resultado: $1,100 de ganancia en 90 días.',
+    returned: 6100,
+    duration: '90 días',
     stars: 5,
+    quote: 'Los $1,100 que gané me ayudaron a pagar deudas. La gestora me escribía cada semana. Fue una experiencia muy diferente a lo que esperaba.',
   },
   {
-    initials: 'SM',
     name: 'Sandra M.',
     country: 'Argentina',
-    plan: 'Growth · 60 días',
+    flag: '🇦🇷',
+    plan: 'Plan Crecimiento',
     invested: 1500,
-    received: 1680,
-    gain: 180,
-    date: 'Abril 2025',
-    quote: 'Llevo tres ciclos con Aurum. El primer mes tuve dudas, pero cuando vi el dinero volver a mi billetera digital, me quedé tranquila. Ahora lo recomiendo a mi familia.',
+    returned: 1680,
+    duration: '60 días',
     stars: 5,
+    quote: 'Me daba desconfianza al principio. Empecé con el plan más pequeño para probar. Cuando vi el resultado, metí más. Ya voy por mi tercer plan.',
   },
   {
-    initials: 'RC',
     name: 'Roberto C.',
     country: 'Perú',
-    plan: 'Starter · 30 días',
+    flag: '🇵🇪',
+    plan: 'Plan Básico',
     invested: 300,
-    received: 315,
-    gain: 15,
-    date: 'Mayo 2025',
-    quote: 'Comencé con lo mínimo, $300, para probar. El proceso fue exactamente como lo explicaron. Nada complicado, nada raro. Ya tengo el plan Growth con $1,000.',
+    returned: 315,
+    duration: '30 días',
     stars: 5,
+    quote: 'Es poco dinero pero para mí fue mucho. No sabía nada de esto y lo entendí todo. El equipo te trata como una persona, no como un número.',
   },
 ]
-
-function Stars({ count }: { count: number }) {
-  return (
-    <div className="flex gap-0.5">
-      {Array.from({ length: count }).map((_, i) => (
-        <Star key={i} size={12} className="text-[#C9A227] fill-[#C9A227]" />
-      ))}
-    </div>
-  )
-}
 
 export default function Testimonials() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
 
   return (
-    <section id="testimonios" ref={ref} className="py-32 bg-[#111418]">
+    <section id="testimonios" ref={ref} className="py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -90,110 +75,82 @@ export default function Testimonials() {
           className="mb-16 text-center"
         >
           <div className="flex justify-center">
-            <SectionTag>Lo que dicen nuestros inversores</SectionTag>
+            <SectionTag>Lo que dicen nuestros clientes</SectionTag>
           </div>
-          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] max-w-xl mx-auto leading-tight tracking-tight">
-            Personas como tú.{' '}
-            <span className="text-[#C9A227] italic">Ganancias reales.</span>
+          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#1A1918] max-w-xl mx-auto leading-tight tracking-tight">
+            Personas como tú que{' '}
+            <span className="text-[#C9A227] italic">ya están ganando.</span>
           </h2>
-          <p className="text-[#9B9590] mt-5 max-w-lg mx-auto text-sm leading-relaxed">
-            Todos empezaron sin saber nada de criptomonedas. Hoy tienen sus ganancias
-            en su billetera digital. Los nombres se acortan para proteger su privacidad,
-            pero los resultados son reales y verificados por nuestro equipo.
+          <p className="text-[#6B6862] mt-5 max-w-md mx-auto text-sm leading-relaxed">
+            Sin experiencia previa, sin conocimientos técnicos. Solo eligieron un plan, enviaron su dinero y esperaron.
           </p>
         </motion.div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-5">
-          {TESTIMONIALS.slice(0, 3).map(({ initials, name, country, plan, invested, received, gain, date, quote, stars }, i) => (
-            <motion.div
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {TESTIMONIALS.map(({ name, country, flag, plan, invested, returned, duration, stars, quote }, i) => (
+            <motion.article
               key={name}
               initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: i * 0.1 }}
-              className="rounded-2xl border border-[rgba(245,240,232,0.07)] bg-[#0A0B0D] p-6 lg:p-7 flex flex-col hover:border-[rgba(201,162,39,0.25)] transition-colors duration-300"
+              className="rounded-2xl border border-black/[0.07] bg-[#F8F7F5] p-6 lg:p-7 flex flex-col hover:shadow-[0_4px_20px_rgba(0,0,0,0.07)] hover:border-[#C9A227]/20 transition-all duration-300"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[rgba(201,162,39,0.1)] border border-[rgba(201,162,39,0.2)] flex items-center justify-center font-mono text-xs text-[#C9A227]">
-                    {initials}
-                  </div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">{flag}</span>
                   <div>
-                    <div className="text-[#F5F0E8] text-sm font-semibold">{name}</div>
-                    <div className="text-[#7A7570] text-[11px]">{country} · {date}</div>
+                    <div className="text-[#1A1918] text-sm font-semibold">{name}</div>
+                    <div className="text-[#9A9590] text-xs font-mono">{country}</div>
                   </div>
                 </div>
-                <Stars count={stars} />
+                <div className="flex">
+                  {Array.from({ length: stars }).map((_, s) => (
+                    <Star key={s} size={11} className="text-[#C9A227] fill-[#C9A227]" />
+                  ))}
+                </div>
               </div>
 
-              <p className="text-[#9B9590] text-[13px] leading-[1.8] flex-1 mb-5">"{quote}"</p>
+              <blockquote className="text-[#4A4845] text-[13px] leading-[1.75] flex-1 mb-5 italic">
+                "{quote}"
+              </blockquote>
 
-              <div className="pt-4 border-t border-[rgba(245,240,232,0.06)]">
+              <div className="rounded-xl border border-black/[0.06] bg-white p-3.5">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-[10px] text-[#7A7570] tracking-wide">{plan}</span>
-                  <div className="flex items-center gap-1 text-[#6FBF8B]">
-                    <TrendingUp size={11} />
-                    <span className="font-mono text-[11px] font-semibold">+${gain} USD</span>
-                  </div>
+                  <span className="font-mono text-[10px] text-[#B8941F]">{plan}</span>
+                  <span className="font-mono text-[10px] text-[#9A9590]">{duration}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#7A7570] text-xs">Invirtió: <span className="text-[#9B9590]">${invested.toLocaleString()}</span></span>
-                  <span className="text-[#7A7570] text-xs">Recibió: <span className="text-[#6FBF8B] font-medium">${received.toLocaleString()}</span></span>
+                  <div>
+                    <div className="text-[#9A9590] text-[11px]">Invirtió</div>
+                    <div className="text-[#1A1918] font-semibold text-sm">${invested.toLocaleString()}</div>
+                  </div>
+                  <TrendingUp size={14} className="text-[#1E7A47]" />
+                  <div className="text-right">
+                    <div className="text-[#9A9590] text-[11px]">Recibió</div>
+                    <div className="text-[#1E7A47] font-semibold text-sm">${returned.toLocaleString()}</div>
+                  </div>
+                </div>
+                <div className="mt-2 pt-2 border-t border-black/[0.05] text-center">
+                  <span className="text-[#1E7A47] font-mono text-[11px] font-semibold">
+                    +${(returned - invested).toLocaleString()} de ganancia
+                    ({(((returned - invested) / invested) * 100).toFixed(1)}%)
+                  </span>
                 </div>
               </div>
-            </motion.div>
+            </motion.article>
           ))}
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-5">
-          {TESTIMONIALS.slice(3).map(({ initials, name, country, plan, invested, received, gain, date, quote, stars }, i) => (
-            <motion.div
-              key={name}
-              initial={{ opacity: 0, y: 28 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.3 + i * 0.1 }}
-              className="rounded-2xl border border-[rgba(245,240,232,0.07)] bg-[#0A0B0D] p-6 lg:p-7 flex flex-col hover:border-[rgba(201,162,39,0.25)] transition-colors duration-300"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[rgba(201,162,39,0.1)] border border-[rgba(201,162,39,0.2)] flex items-center justify-center font-mono text-xs text-[#C9A227]">
-                    {initials}
-                  </div>
-                  <div>
-                    <div className="text-[#F5F0E8] text-sm font-semibold">{name}</div>
-                    <div className="text-[#7A7570] text-[11px]">{country} · {date}</div>
-                  </div>
-                </div>
-                <Stars count={stars} />
-              </div>
-
-              <p className="text-[#9B9590] text-[13px] leading-[1.8] flex-1 mb-5">"{quote}"</p>
-
-              <div className="pt-4 border-t border-[rgba(245,240,232,0.06)]">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-[10px] text-[#7A7570] tracking-wide">{plan}</span>
-                  <div className="flex items-center gap-1 text-[#6FBF8B]">
-                    <TrendingUp size={11} />
-                    <span className="font-mono text-[11px] font-semibold">+${gain} USD</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#7A7570] text-xs">Invirtió: <span className="text-[#9B9590]">${invested.toLocaleString()}</span></span>
-                  <span className="text-[#7A7570] text-xs">Recibió: <span className="text-[#6FBF8B] font-medium">${received.toLocaleString()}</span></span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center text-xs text-[#6A6560] mt-8"
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-8 text-center"
         >
-          Los nombres se acortan para proteger la privacidad. Los resultados son verificados por nuestro equipo interno.
-          Los rendimientos pasados no garantizan resultados futuros.
-        </motion.p>
+          <p className="text-[#B8B4AF] text-xs font-mono">
+            Testimonios reales de clientes verificados · Los resultados individuales pueden variar
+          </p>
+        </motion.div>
       </div>
     </section>
   )

@@ -4,71 +4,63 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from '@/components/ui/accordion'
 import SectionTag from '@/components/ui/section-tag'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 
 const FAQS = [
   {
-    id: 'safe',
-    q: '¿Cómo sé que mi dinero está seguro?',
-    a: 'Nuestras direcciones de depósito son públicas, siempre las mismas y verificables. Cada transferencia la confirma a mano nuestro equipo antes de activar tu plan. Además tienes una gestora personal asignada que te escribe cada semana con el estado de tu inversión. Nunca te pediremos contraseñas, claves de tu banco ni acceso a tus cuentas personales.',
+    q: '¿Qué necesito saber para empezar?',
+    a: 'Nada técnico. Solo necesitas un correo electrónico, tener al menos $300 dólares disponibles y acceso a una billetera digital básica para enviar el dinero. Nosotros te guiamos en cada paso, incluyendo cómo usar la billetera si nunca lo has hecho.',
   },
   {
-    id: 'who',
-    q: '¿Quién maneja mi dinero?',
-    a: 'Un equipo humano de cuatro personas: Carlos Mendez (Director de Inversiones, 12 años en mercados), Ana García (Gestora Senior, especialista en activos digitales desde 2017), Rodrigo Vásquez (Analista de Control de Riesgo, pone los límites de pérdida en cada operación) y María Fernández (tu gestora personal, tu punto de contacto directo). No es un robot sin supervisión. Hay personas reales tomando decisiones cada día.',
+    q: '¿Qué es exactamente lo que hacen con mi dinero?',
+    a: 'Nuestro equipo compra y vende criptomonedas (principalmente Bitcoin y Ethereum) aprovechando los cambios de precio. Compramos cuando el precio baja, vendemos cuando sube. Hacemos esto decenas de veces por día. Al final de tu plan, la ganancia acumulada de todas esas operaciones es lo que tú recibes.',
   },
   {
-    id: 'howgain',
-    q: '¿Cómo generan las ganancias? ¿Cómo funciona eso?',
-    a: 'Compramos activos digitales (criptomonedas) cuando el precio baja y los vendemos cuando sube. Lo hacemos cientos de veces al día, las 24 horas, usando un sistema automatizado supervisado por nuestro equipo. El resultado de todas esas pequeñas compras y ventas es la ganancia que te entregamos al final de tu plan. No es magia: es trabajo constante y método.',
+    q: '¿Cuánto puedo ganar? ¿Es seguro?',
+    a: 'La ganancia estimada es entre +5% y +22% dependiendo del plan elegido. Nuestro historial de los últimos 12 meses muestra una media de +6.3% mensual, con solo un mes negativo de -0.4%. Dicho esto, la inversión en criptomonedas conlleva riesgo y no está garantizada al 100%. Recomendamos invertir solo dinero que puedas dejar quieto sin necesitarlo durante el plazo.',
   },
   {
-    id: 'risk',
-    q: '¿Qué pasa si hay pérdidas? ¿Puedo perder mi dinero?',
-    a: 'Sí, existe esa posibilidad y es importante que lo sepas. El mercado de criptomonedas puede caer mucho de golpe y afectar los resultados. Algunos meses pueden ser negativos (en nuestro historial, abril 2024 fue -0.4%). Si el mercado cae muy fuerte durante tu plan, podrías recibir menos de lo que pusiste. Por eso siempre decimos: invierte solo dinero que puedas permitirte dejar quieto durante el plazo elegido, sin que lo necesites para el día a día. La honestidad sobre el riesgo es parte de quiénes somos.',
+    q: '¿Cuándo y cómo recibo mi dinero de vuelta?',
+    a: 'Al terminar el plazo de tu plan (30, 60 o 90 días), tu dinero inicial más las ganancias se envían a la dirección de billetera digital que tú nos indiques. El proceso tarda entre 24 y 48 horas después de que termina el plan. No hay condiciones ocultas ni renovaciones automáticas.',
   },
   {
-    id: 'return',
-    q: '¿Cuándo recibo mi dinero de vuelta?',
-    a: 'Al terminar el plazo de tu plan (30, 60 o 90 días), recibes tu dinero inicial más lo que ganaste, directamente en tu billetera digital. El proceso de devolución empieza automáticamente al terminar el plan y se completa en menos de 24 horas.',
+    q: '¿Qué pasa si el mercado baja mucho?',
+    a: 'Usamos tres mecanismos de protección: límites automáticos de pérdida por operación, diversificación (nunca todo el dinero en una sola operación) y supervisión humana constante. Aun así, si el mercado tiene una caída extrema, es posible que el resultado sea negativo. Ha ocurrido una vez en 12 meses con -0.4%. Por eso siempre decimos: invierte lo que puedas dejar sin tocar.',
   },
   {
-    id: 'crypto',
-    q: 'No sé nada de criptomonedas. ¿Puedo igual invertir?',
-    a: 'Sí, precisamente para eso estamos. No necesitas saber nada de criptomonedas, ni instalar aplicaciones, ni conectar ninguna cuenta. Solo necesitas poder recibir o enviar dólares digitales (USDT), que es como tener una billetera digital con dólares. Te explicamos paso a paso cómo hacerlo la primera vez. Miles de nuestros clientes empezaron igual que tú, sin saber nada.',
+    q: '¿Puedo retirar mi dinero antes de que termine el plan?',
+    a: 'Los planes tienen un plazo fijo (30, 60 o 90 días) porque necesitamos ese tiempo para completar el ciclo de operaciones. Retirar antes implica cancelar el plan en curso y puede resultar en una ganancia menor o pérdida parcial. Si necesitas el dinero en cualquier momento, escríbenos y evaluamos tu caso.',
   },
   {
-    id: 'wallet',
-    q: '¿Qué es una billetera digital? ¿Cómo la consigo?',
-    a: 'Una billetera digital es como una cuenta bancaria para dinero digital. Tiene una dirección única (como un número de cuenta) donde se recibe y envía dinero. Puedes crear una gratis en aplicaciones como Binance, que es la más conocida. Una vez que tienes tu billetera, puedes enviarnos el dinero y recibirlo de vuelta cuando termine tu plan. Te guiamos en todo el proceso si lo necesitas.',
+    q: '¿Es legal? ¿Están registrados como empresa?',
+    a: 'Sí. Operamos como AURUM Capital S.A.S., empresa registrada bajo el número 2024-AURUM-0847 en Panamá. Ofrecemos gestión de activos digitales bajo los términos legales vigentes. Puedes encontrar nuestra información legal completa en el pie de página de este sitio.',
   },
   {
-    id: 'custom',
-    q: '¿Puedo invertir una cantidad diferente a las de los planes?',
-    a: 'Sí. Tenemos un Plan Personalizado donde tú dices cuánto quieres invertir (mínimo $300) y el tiempo que prefieres (30, 60 o 90 días). La ganancia estimada se ajusta automáticamente: +5% para menos de $1,000, +12% entre $1,000 y $4,999, y +22% para $5,000 o más.',
+    q: '¿Quiénes son los gestores que manejan mi dinero?',
+    a: 'Somos un equipo de cuatro personas: Carlos Mendez (Director de Inversiones, 12 años de experiencia), Ana García (Gestora Senior en criptomonedas desde 2017), Rodrigo Vásquez (Control de Riesgo, 8 años protegiendo capital) y María Fernández (gestora personal asignada a cada inversor). Puedes conocernos mejor en la sección "Nuestro Equipo".',
   },
   {
-    id: 'early',
-    q: '¿Puedo retirar antes de que termine el plazo?',
-    a: 'Los planes tienen un tiempo fijo porque tu dinero está activo en operaciones de compra y venta. No están diseñados para retiro anticipado. Si tienes una situación especial de verdad, escríbele a tu gestora personal y revisamos tu caso. Por eso recomendamos invertir solo dinero que puedas mantener quieto durante el plazo que elijas.',
+    q: '¿Cómo sé que mi dinero está siendo gestionado realmente?',
+    a: 'Cada semana tu gestora personal te escribe con el estado de tu inversión. Tienes acceso a un panel donde puedes ver el estado de tu plan en tiempo real. Además, publicamos nuestro historial de resultados mes a mes en este sitio, incluyendo los meses negativos. No ocultamos nada.',
   },
   {
-    id: 'guarantee',
-    q: '¿Garantizan la ganancia?',
-    a: 'Las ganancias que ves en los planes son estimaciones basadas en nuestro historial real de trabajo. No son una garantía matemática. Lo que sí comprometemos: devolverte tu dinero más lo que se haya ganado al terminar el plan, y ser completamente transparentes sobre el proceso. No somos un fondo de inversión garantizado. Si alguien te ofrece ganancias 100% garantizadas, desconfía.',
+    q: '¿Puedo invertir si vivo fuera de Latinoamérica?',
+    a: 'Sí. Trabajamos con clientes en toda América Latina, España y cualquier país donde puedas acceder a una billetera digital para enviar dólares digitales. La gestión se hace 100% en línea y la comunicación es por chat y correo.',
   },
   {
-    id: 'legal',
-    q: '¿Es legal esto? ¿Están registrados en algún lado?',
-    a: 'AURUM Capital S.A.S. es una empresa registrada en Panamá (Registro Comercial N° 2024-AURUM-0847). Gestionamos dinero de inversores para operar con activos digitales. No estamos regulados por organismos financieros gubernamentales como la SEC o la CNMV. Operamos en un espacio legal permitido para gestión de activos digitales, siendo honestos sobre nuestra naturaleza: somos una empresa privada de gestión, no un banco ni un fondo regulado.',
+    q: '¿Qué es una billetera digital? ¿Necesito crear una?',
+    a: 'Una billetera digital es como una cuenta bancaria para dinero digital. Para invertir con nosotros necesitas una. Si no tienes una, te ayudamos a crear una gratuita con una guía paso a paso. No tienes que entender cómo funciona por dentro, solo cómo usarla para enviar y recibir dinero.',
   },
 ]
 
 export default function FAQ() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
+  const navigate = useNavigate()
 
   return (
-    <section id="faq" ref={ref} className="py-32 bg-[#111418]">
+    <section id="faq" ref={ref} className="py-32 bg-[#F8F7F5]">
       <div className="max-w-3xl mx-auto px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -79,31 +71,55 @@ export default function FAQ() {
           <div className="flex justify-center">
             <SectionTag>Preguntas frecuentes</SectionTag>
           </div>
-          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#F5F0E8] leading-tight tracking-tight">
-            Todo lo que quieres saber,
-            <br />
-            <span className="text-[#C9A227] italic">sin rodeos.</span>
+          <h2 className="font-serif font-normal text-4xl lg:text-5xl text-[#1A1918] leading-tight tracking-tight">
+            Todo lo que necesitas saber
           </h2>
-          <p className="text-[#9B9590] text-sm mt-4 max-w-md mx-auto leading-relaxed">
-            Incluidas las preguntas difíciles: sobre riesgos, sobre quién maneja tu dinero
-            y sobre qué pasa si algo sale mal. Aquí no escondemos nada.
+          <p className="text-[#6B6862] mt-4 text-sm leading-relaxed">
+            Si tienes alguna duda que no encuentras aquí, escríbenos directamente.
+            Respondemos en menos de 4 horas.
           </p>
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 28 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="rounded-2xl border border-[rgba(245,240,232,0.07)] bg-[#0A0B0D] px-2 lg:px-3"
         >
-          <Accordion type="single" collapsible>
-            {FAQS.map(({ id, q, a }) => (
-              <AccordionItem key={id} value={id}>
-                <AccordionTrigger className="text-base lg:text-lg">{q}</AccordionTrigger>
-                <AccordionContent className="text-sm lg:text-[15px]">{a}</AccordionContent>
+          <Accordion type="single" collapsible className="space-y-2">
+            {FAQS.map(({ q, a }, i) => (
+              <AccordionItem key={i} value={`faq-${i}`} className="rounded-xl border border-black/[0.07] bg-white px-1 overflow-hidden hover:border-[#C9A227]/20 transition-colors">
+                <AccordionTrigger className="px-5 py-4 text-left text-sm font-semibold text-[#1A1918] hover:no-underline">
+                  {q}
+                </AccordionTrigger>
+                <AccordionContent className="px-5 pb-5 text-[#4A4845] text-[13px] leading-[1.8]">
+                  {a}
+                </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-12 rounded-2xl border border-[#C9A227]/15 bg-[#C9A227]/[0.04] p-7 text-center"
+        >
+          <p className="text-[#1A1918] font-semibold mb-1.5">¿No encontraste tu respuesta?</p>
+          <p className="text-[#6B6862] text-sm mb-5">
+            Escríbenos directamente. Atendemos de lunes a sábado de 9am a 8pm.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <a
+              href="mailto:soporte@aurumcapital.io"
+              className="inline-flex items-center gap-2 rounded-full border border-[#C9A227]/30 bg-white px-5 py-2.5 text-[#B8941F] text-sm font-medium hover:bg-[#C9A227]/[0.06] transition-colors"
+            >
+              soporte@aurumcapital.io
+            </a>
+            <Button variant="ghost" onClick={() => navigate('/register')} className="rounded-full">
+              Empezar ahora
+            </Button>
+          </div>
         </motion.div>
       </div>
     </section>
